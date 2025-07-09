@@ -4,6 +4,7 @@ import cors from "cors";
 import http from "http";
 import { Server } from "socket.io";
 import connectDB from "./config/db.js";
+import authRoutes from "./routes/authRoutes.js";
 
 dotenv.config();
 connectDB();
@@ -11,6 +12,7 @@ connectDB();
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use("/api/auth", authRoutes);
 
 const server = http.createServer(app);
 const io = new Server(server, {
