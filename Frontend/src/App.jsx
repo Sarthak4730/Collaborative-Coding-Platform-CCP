@@ -11,8 +11,6 @@ function App() {
         <Route path="/register" element={ <Register /> } />
         <Route path="/login" element={ <Login /> } />
       </Routes>
-      
-      {/* <h1  className="text-3xl font-bold text-red-600">Hello World</h1> */}
     </>
   )
 }
