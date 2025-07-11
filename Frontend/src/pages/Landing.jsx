@@ -35,20 +35,20 @@ export default function Landing() {
         </ul>
 
         <div className="btns h-[20vh] flex justify-center gap-5 items-center">
-            <Link to="/login">                                               {/* edit link to CREATE-ROOM */}
+            <Link to="/create-room">                                               {/* edit link to CREATE-ROOM */}
                 <button className="w-[15vw] h-[10vh] rounded-xl cursor-pointer text-lg hover:scale-105 font-bold text-white bg-blue-500 ">Create a Room</button>
             </Link>
-            <Link to="/login">                                                  {/* edit link to JOIN-ROOM */}
+            <Link to="/join-room">                                                  {/* edit link to JOIN-ROOM */}
                 <button className="w-[15vw] h-[10vh] rounded-xl cursor-pointer text-lg hover:scale-105 font-bold border-3 border-blue-500 ">Join a Room</button>
             </Link>
         </div>
 
-        <footer className="h-[15vh] bg-blue-900 text-white flex items-center">
+        <footer className="h-[15vh] bg-blue-500 text-white flex items-center">
             <ul className="w-full flex justify-evenly">
                 <li className="w-1/3 flex justify-center">
                     <div className="custom-box flex w-[6vw] justify-between items-center">
                         <FaGithub className="text-2xl"/>
-                        <h3><a className="underline hover:text-blue-300" href="https://github.com/Sarthak4730" target="_blank">Github</a></h3>
+                        <h3><a className="underline hover:text-blue-300" href="https://github.com/Sarthak4730/Collaborative-Coding-Platform-CCP" target="_blank">Github</a></h3>
                     </div>
                 </li>
                 <li className="w-1/3 flex justify-center">
