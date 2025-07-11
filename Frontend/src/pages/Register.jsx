@@ -42,7 +42,7 @@ export default function Register() {
                 {isHidden ? <LuEye className="cursor-pointer absolute right-4 top-2 text-2xl" onClick={() => setIsHidden(!isHidden)}/> : <LuEyeClosed className="cursor-pointer absolute right-4 top-2 text-2xl" onClick={() => setIsHidden(!isHidden)}/>}
             </div>
 
-            {error && <p className="text-3xl font-bold text-red-600">{error}</p>}
+            {error && <p className="text-lg font-bold text-red-600">*{error}*</p>}
 
             <button type="submit" className="w-[12.5vw] h-[7.5vh] rounded-xl cursor-pointer text-lg hover:scale-105 font-bold text-white bg-blue-500 ">Register</button>
             
