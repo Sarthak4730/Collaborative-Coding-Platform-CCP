@@ -21,6 +21,19 @@ const io = new Server(server, {
 
 io.on("connection", (socket) => {
     console.log("User connected:", socket.id);
+
+    socket.on("join-room", (roomId) => {
+        socket.join(roomId);
+        console.log(`Socket-${socket.id} Joined Room-${roomId}`);
+    } );
+
+    socket.on("send-message", ( { roomId, message, sender } ) => {
+        socket.to(roomId).emit("receive-message", { message, sender } );
+    } );
+
+    socket.on("disconnect", () => {
+        console.log("User disconnected:", socket.id);
+    } );
 });
 
 app.get('/', (req, res) => res.send("API is running"));

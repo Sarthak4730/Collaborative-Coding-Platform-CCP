@@ -35,10 +35,10 @@ export default function Landing() {
         </ul>
 
         <div className="btns h-[20vh] flex justify-center gap-5 items-center">
-            <Link to="/create-room">                                               {/* edit link to CREATE-ROOM */}
+            <Link to="/create-a-room">                                               {/* edit link to CREATE-ROOM */}
                 <button className="w-[15vw] h-[10vh] rounded-xl cursor-pointer text-lg hover:scale-105 font-bold text-white bg-blue-500 ">Create a Room</button>
             </Link>
-            <Link to="/join-room">                                                  {/* edit link to JOIN-ROOM */}
+            <Link to="/join-a-room">                                                  {/* edit link to JOIN-ROOM */}
                 <button className="w-[15vw] h-[10vh] rounded-xl cursor-pointer text-lg hover:scale-105 font-bold border-3 border-blue-500 ">Join a Room</button>
             </Link>
         </div>
