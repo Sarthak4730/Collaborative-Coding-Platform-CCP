@@ -19,16 +19,26 @@ const io = new Server(server, {
     cors: { "origin": "http://localhost:3000" }
 });
 
+const roomLeaders = {}
+
 io.on("connection", (socket) => {
     console.log("User connected:", socket.id);
 
     socket.on("join-room", (roomId) => {
         socket.join(roomId);
+
+        if( !roomLeaders[roomId] ) roomLeaders[roomId] = socket.id;
+        socket.emit("language-leader", roomLeaders[roomId] == socket.id);
+
         console.log(`Socket-${socket.id} Joined Room-${roomId}`);
     } );
 
     socket.on("send-message", ( { roomId, message, sender } ) => {
         socket.to(roomId).emit("receive-message", { message, sender } );
+    } );
+
+    socket.on("language-change", ( { roomId, lang } ) => {
+        socket.to(roomId).emit("language-updated", lang);
     } );
 
     socket.on("disconnect", () => {
