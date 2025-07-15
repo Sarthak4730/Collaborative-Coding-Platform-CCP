@@ -1,18 +1,45 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { FaGithub } from "react-icons/fa";
 import { FaHeart } from "react-icons/fa";
 import { IoIosMail } from "react-icons/io";
+import Swal from 'sweetalert2';
+import { useState } from "react";
 
 export default function Landing() {
+    const [isLoggedIn, setIsLoggedIn] = useState( localStorage.length != 0 );
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        localStorage.clear();
+        Swal.fire( {
+            position: "top-end",
+            icon: "success",
+            title: "Logged Out Successfully.",
+            showConfirmButton: false,
+            timer: 2000
+        } );
+        setIsLoggedIn(false);
+    }
+    const handleClick = (intent) => {
+        const target = intent === "create" ? "/create-a-room" : "/join-a-room";
+        if(isLoggedIn) navigate(target);
+        else navigate("/login", { state: { from: target } } );
+    }
+
     return <>
-        <nav className="intro h-[25vh] bg-blue-500 text-white flex flex-col justify-center items-center">
-            <h1 className="text-3xl font-bold">Collaborative Coding Platform (CCP)</h1>
-            <h3 className="text-xl">Zero Setup. Multi-Language. Real-Time.</h3>
-            <p className="font-semibold text-gray-300">Create/Join a room - Write & Run code together - Chat about errors, bugs and fixes.</p>
+        <nav className="intro h-[20vh] bg-blue-500 text-white flex justify-between px-10 items-center">
+            <div className="left">
+                <h1 className="text-3xl font-bold">Collaborative Coding Platform (CCP)</h1>
+                <h3 className="text-xl">Zero Setup. Multi-Language. Real-Time.</h3>
+                <p className="font-semibold text-gray-300">Create/Join a room - Write & Run code together - Chat about errors, bugs and fixes.</p>
+            </div>
+            {
+                isLoggedIn && <button onClick={handleLogout} className="w-[7vw] h-[7vh] rounded-xl cursor-pointer text-lg hover:scale-105 font-bold border-3 border-red-500 bg-white text-red-500">Logout</button>
+            }
         </nav>
 
-        <ul className="features-list flex justify-evenly h-[40vh] items-center list-disc text-xl">
-            <div className="left h-[25vh] flex flex-col justify-between">
+        <ul className="features-list flex justify-evenly h-[45vh] items-center list-disc text-xl">
+            <div className="left h-[30vh] flex flex-col justify-between">
                 <li className="feature">
                     <h4 className="font-bold text-2xl">Real-time collaboration.</h4>
                     <p>Code together, see each other's cursors live.</p>
@@ -22,7 +49,7 @@ export default function Landing() {
                     <p>C++, Java, & Python - compiler instantly.</p>
                 </li>
             </div>
-            <div className="right h-[25vh] flex flex-col justify-between">
+            <div className="right h-[30vh] flex flex-col justify-between">
                 <li className="feature">
                     <h4 className="font-bold text-2xl">Secure room access.</h4>
                     <p>Login protected and JWT-authenticated rooms.</p>
@@ -35,12 +62,8 @@ export default function Landing() {
         </ul>
 
         <div className="btns h-[20vh] flex justify-center gap-5 items-center">
-            <Link to="/create-a-room">                                               {/* edit link to CREATE-ROOM */}
-                <button className="w-[15vw] h-[10vh] rounded-xl cursor-pointer text-lg hover:scale-105 font-bold text-white bg-blue-500 ">Create a Room</button>
-            </Link>
-            <Link to="/join-a-room">                                                  {/* edit link to JOIN-ROOM */}
-                <button className="w-[15vw] h-[10vh] rounded-xl cursor-pointer text-lg hover:scale-105 font-bold border-3 border-blue-500 ">Join a Room</button>
-            </Link>
+            <button onClick={() => handleClick("create")} className="w-[15vw] h-[10vh] rounded-xl cursor-pointer text-lg hover:scale-105 font-bold text-white bg-blue-500 ">Create a Room</button>
+            <button onClick={() => handleClick("join")} className="w-[15vw] h-[10vh] rounded-xl cursor-pointer text-lg hover:scale-105 font-bold border-3 border-blue-500 ">Join a Room</button>
         </div>
 
         <footer className="h-[15vh] bg-blue-500 text-white flex items-center">

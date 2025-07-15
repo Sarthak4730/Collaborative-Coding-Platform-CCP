@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 import { LuEye } from "react-icons/lu";
 import { LuEyeClosed } from "react-icons/lu";
@@ -12,8 +12,8 @@ export default function Login() {
     } );
     const [error, setError] = useState("");
     const [isHidden, setIsHidden] = useState(true);
-
     const navigate = useNavigate();
+    const location = useLocation();
 
     const handleChange = (e) => {
         setFormData( { ...formData, [e.target.name]: e.target.value } );
@@ -25,8 +25,8 @@ export default function Login() {
             localStorage.setItem("token", res.data.token);
             localStorage.setItem("username", res.data.username);
             console.log(res.data);
-            alert("successfully Logged in to existing account");
-            navigate('/');                                                                      // CREATE OR JOIN ROOM
+            alert("Successfully Logged in to existing account");
+            navigate( location.state?.from || '/' );
         } catch (err) {
             setError(err.response?.data?.message || "Login Failed");
         }
@@ -48,9 +48,7 @@ export default function Login() {
         
             <div className="login-div flex items-center gap-3">
                 <p className="text-lg font-semibold">Don't have an account?</p>
-                <Link to="/register">
-                    <button type="submit" className="w-[12.5vw] h-[7.5vh] rounded-xl cursor-pointer text-lg hover:scale-105 font-bold border-3 border-blue-500 ">Register</button>
-                </Link>
+                <button onClick={ () => { navigate("/register") } } type="submit" className="w-[12.5vw] h-[7.5vh] rounded-xl cursor-pointer text-lg hover:scale-105 font-bold border-3 border-blue-500 ">Register</button>
             </div>
         </form>
     </>

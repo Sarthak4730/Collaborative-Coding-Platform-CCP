@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { LuEye } from "react-icons/lu";
 import { LuEyeClosed } from "react-icons/lu";
@@ -13,7 +13,6 @@ export default function Register() {
     } );
     const [error, setError] = useState("");
     const [isHidden, setIsHidden] = useState(true);
-
     const navigate = useNavigate();
 
     const handleChange = (e) => {
@@ -25,8 +24,8 @@ export default function Register() {
             const res = await axios.post("http://localhost:5000/api/auth/register", formData);
             localStorage.setItem("token", res.data.token);
             localStorage.setItem("username", res.data.username);
-            alert("successfully Registered new user");
-            navigate('/');                                                                      // CREATE OR JOIN ROOM
+            alert("Successfully Registered new user");
+            navigate('/login');
         } catch (err) {
             setError(err.response?.data?.message || "Registration Failed");
         }
@@ -49,9 +48,7 @@ export default function Register() {
             
             <div className="login-div flex items-center gap-3">
                 <p className="text-lg font-semibold">Already have an account?</p>
-                <Link to="/login">
-                    <button type="submit" className="w-[12.5vw] h-[7.5vh] rounded-xl cursor-pointer text-lg hover:scale-105 font-bold border-3 border-blue-500 ">Login</button>
-                </Link>
+                <button onClick={ () => { navigate("/login") } } type="submit" className="w-[12.5vw] h-[7.5vh] rounded-xl cursor-pointer text-lg hover:scale-105 font-bold border-3 border-blue-500 ">Login</button>
             </div>
         </form>
     </>

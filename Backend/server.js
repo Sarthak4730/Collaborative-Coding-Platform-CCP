@@ -19,18 +19,23 @@ const io = new Server(server, {
     cors: { "origin": "http://localhost:3000" }
 });
 
-const roomLeaders = {}
+const roomUsers = {};
 
 io.on("connection", (socket) => {
-    console.log("User connected:", socket.id);
-
-    socket.on("join-room", (roomId) => {
+    socket.on("join-room", ( { roomId, username } ) => {
         socket.join(roomId);
+        socket.username = username;
 
-        if( !roomLeaders[roomId] ) roomLeaders[roomId] = socket.id;
-        socket.emit("language-leader", roomLeaders[roomId] == socket.id);
+        if(!roomUsers[roomId]) roomUsers[roomId] = [];
+        roomUsers[roomId].push( { socketId: socket.id, username } );
 
-        console.log(`Socket-${socket.id} Joined Room-${roomId}`);
+        const leader = roomUsers[roomId][0];
+        io.to(roomId).emit("set-leader", {
+            leaderId: leader.socketId,
+            leaderName: leader.username
+        } );
+
+        console.log(`${socket.username} Joined Room-${roomId}`);
     } );
 
     socket.on("send-message", ( { roomId, message, sender } ) => {
@@ -41,8 +46,28 @@ io.on("connection", (socket) => {
         socket.to(roomId).emit("language-updated", lang);
     } );
 
+    // RUN CODE START
+    socket.on("run-started", (roomId) => {
+        socket.to(roomId).emit("run-started");
+    } );
+    socket.on("run-finished", (roomId) => {
+        socket.to(roomId).emit("run-finished");
+    } );
+    // RUN CODE END
+
     socket.on("disconnect", () => {
-        console.log("User disconnected:", socket.id);
+        console.log(socket.username, " disconnected");
+        for(const roomId in roomUsers){
+            roomUsers[roomId] = roomUsers[roomId].filter(u => u.socketId !== socket.id);
+
+            if( roomUsers[roomId].length > 0 ){
+                const newLeader = roomUsers[roomId][0];
+                io.to(roomId).emit("set-leader", {
+                    leaderId: newLeader.socketId,
+                    leaderName: newLeader.username
+                } );
+            }
+        }
     } );
 });
 
