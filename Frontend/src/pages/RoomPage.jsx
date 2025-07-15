@@ -21,21 +21,21 @@ export default function RoomPage() {
         java: `public class Main {\n\tpublic static void main(String[] args) {\n\t\tSystem.out.println("Hello World - Java");\n\t}\n}`,
         python: `print("Hello World - Python")`
     };
-    const [language, setLanguage] = useState(languageOptions[0]);
-    const [code, setCode] = useState(defaultCode.cpp);
-    const [output, setOutput] = useState('');
-    const lastMsg = useRef(null);
     const [leaderName, setLeaderName] = useState("")
     const [isLeader, setIsLeader] = useState(false);
-    const [input, setInput] = useState('');
+    const [language, setLanguage] = useState(languageOptions[0]);
     const [isCodeRunning, setIsCodeRunning] = useState(false);
+    const [code, setCode] = useState(defaultCode.cpp);
+    const [input, setInput] = useState('');
+    const [output, setOutput] = useState('');
 
     // Room Chatbox Variables
-    const [chatLog, setChatLog] = useState([]);
-    const [message, setMessage] = useState('');
     const socketRef = useRef(null);
     const { roomId } = useParams();
     const username = localStorage.getItem("username") || "Unknown";
+    const [chatLog, setChatLog] = useState([]);
+    const [message, setMessage] = useState('');
+    const lastMsg = useRef(null);
     
     // Code Editor Functions
     const runCode = async () => {
@@ -56,6 +56,9 @@ export default function RoomPage() {
                         
             const result = res.data;
             setOutput( result.run?.stdout || result.run?.stderr || result?.message || "No Output" );
+            socketRef.current.emit("output-change", {
+                roomId, output: result.run?.stdout || result.run?.stderr || result?.message || "No Output"
+            } );
         } catch (err) {
             console.error(err);
             setOutput("Error running the code");
@@ -71,7 +74,11 @@ export default function RoomPage() {
     }, [chatLog] );
     useEffect( () => {
         socketRef.current = io("http://localhost:5000");
+
+        // EMIT call
         socketRef.current.emit("join-room", { roomId, username } );
+
+        // ON calls
         socketRef.current.on("set-leader", ( { leaderId, leaderName } ) => {
             setLeaderName(leaderName);
             setIsLeader( socketRef.current.id === leaderId );
@@ -84,8 +91,18 @@ export default function RoomPage() {
             setLanguage(langObj);
             setCode(defaultCode[langVal]);
         } );
+        socketRef.current.on("code-change", ( { code } ) => {
+            setCode(code);
+        } );
+        socketRef.current.on("input-change", ( { input } ) => {
+            setInput(input);
+        } );
+        socketRef.current.on("output-change", ( { output } ) => {
+            setOutput(output);
+        } );
         socketRef.current.on("run-started", () => setIsCodeRunning(true));
         socketRef.current.on("run-finished", () => setIsCodeRunning(false));
+
         return () => socketRef.current.disconnect();
     }, [roomId] );
     const sendMessage = () => {
@@ -136,7 +153,10 @@ export default function RoomPage() {
                     theme="vs-dark"
                     language={language.value}
                     value={code}
-                    onChange={ (text) => setCode(text) }
+                    onChange={ (text) => {
+                        setCode(text);
+                        socketRef.current.emit("code-change", { roomId, code: text } );
+                    } }
                     options={ {
                         minimap: { enabled: false }
                     } }
@@ -148,7 +168,10 @@ export default function RoomPage() {
                         <h3 className="py-2 pl-3 text-xl font-bold underline underline-offset-3 decoration-blue-500 decoration-3">Input :</h3>
                         <textarea
                             value={input}
-                            onChange={ (e) => setInput(e.target.value) }
+                            onChange={ (e) => {
+                                setInput(e.target.value);
+                                socketRef.current.emit("input-change", { roomId, input: e.target.value } );
+                            } }
                             placeholder="Enter your custom input here..."
                             className="rounded-lg h-[18vh] ml-2 p-2 w-[29vw] mx-auto overflow-y-auto bg-neutral-800 text-white"
                         />

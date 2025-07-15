@@ -15,9 +15,9 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 
 const server = http.createServer(app);
-const io = new Server(server, {
+const io = new Server( server, {
     cors: { "origin": "http://localhost:3000" }
-});
+} );
 
 const roomUsers = {};
 
@@ -45,6 +45,18 @@ io.on("connection", (socket) => {
     socket.on("language-change", ( { roomId, lang } ) => {
         socket.to(roomId).emit("language-updated", lang);
     } );
+
+    // Code-Input-Output Changes START
+    socket.on("code-change", ( { roomId, code } ) => {
+        socket.to(roomId).emit("code-change", { code } );
+    } );
+    socket.on("input-change", ( { roomId, input } ) => {
+        socket.to(roomId).emit("input-change", { input } );
+    } );
+    socket.on("output-change", ( { roomId, output } ) => {
+        socket.to(roomId).emit("output-change", { output } );
+    } );
+    // Code-Input-Output Changes END
 
     // RUN CODE START
     socket.on("run-started", (roomId) => {
