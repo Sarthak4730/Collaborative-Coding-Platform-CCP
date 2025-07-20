@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 import { LuEye } from "react-icons/lu";
 import { LuEyeClosed } from "react-icons/lu";
+import Swal from 'sweetalert2';
 
 export default function Register() {
     const [formData, setFormData] = useState( {
@@ -24,7 +25,15 @@ export default function Register() {
             const res = await axios.post("http://localhost:5000/api/auth/register", formData);
             localStorage.setItem("token", res.data.token);
             localStorage.setItem("username", res.data.username);
-            alert("Successfully Registered new user");
+            // alert("Successfully Registered new user");
+            Swal.fire( {
+                position: "top-end",
+                icon: "success",
+                title: "Successfully Registered new user",
+                showConfirmButton: false,
+                timer: 2000,
+                timerProgressBar: true
+            } );
             navigate('/login');
         } catch (err) {
             setError(err.response?.data?.message || "Registration Failed");

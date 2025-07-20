@@ -24,6 +24,7 @@ const roomUsers = {};
 io.on("connection", (socket) => {
     socket.on("join-room", ( { roomId, username } ) => {
         socket.join(roomId);
+        socket.roomId = roomId;
         socket.username = username;
 
         if(!roomUsers[roomId]) roomUsers[roomId] = [];
@@ -35,7 +36,9 @@ io.on("connection", (socket) => {
             leaderName: leader.username
         } );
 
-        console.log(`${socket.username} Joined Room-${roomId}`);
+        socket.broadcast.to(roomId).emit("join-room", { username } );
+
+        io.to(roomId).emit("members-update", { roomUsers: roomUsers[roomId] } );
     } );
 
     socket.on("send-message", ( { roomId, message, sender } ) => {
@@ -43,7 +46,7 @@ io.on("connection", (socket) => {
     } );
 
     socket.on("language-change", ( { roomId, lang } ) => {
-        socket.to(roomId).emit("language-updated", lang);
+        socket.to(roomId).emit("language-updated", lang );
     } );
 
     // Code-Input-Output Changes START
@@ -58,6 +61,12 @@ io.on("connection", (socket) => {
     } );
     // Code-Input-Output Changes END
 
+    // Cursor Events START
+    socket.on("cursor-update", ( { roomId, ...data } ) => {
+        socket.to(roomId).emit("cursor-update", data );
+    } );
+    // Cursor Events END
+
     // RUN CODE START
     socket.on("run-started", (roomId) => {
         socket.to(roomId).emit("run-started");
@@ -68,18 +77,21 @@ io.on("connection", (socket) => {
     // RUN CODE END
 
     socket.on("disconnect", () => {
-        console.log(socket.username, " disconnected");
-        for(const roomId in roomUsers){
-            roomUsers[roomId] = roomUsers[roomId].filter(u => u.socketId !== socket.id);
-
-            if( roomUsers[roomId].length > 0 ){
-                const newLeader = roomUsers[roomId][0];
-                io.to(roomId).emit("set-leader", {
-                    leaderId: newLeader.socketId,
-                    leaderName: newLeader.username
-                } );
-            }
+        const roomId = socket.roomId;
+        io.to(roomId).emit("user-disconnected", {
+            socketId: socket.id, username: socket.username, roomUsers: roomUsers[roomId]
+        } );
+        
+        roomUsers[roomId] = roomUsers[roomId].filter(u => u.socketId !== socket.id);
+        if( roomUsers[roomId].length > 0 ){
+            const newLeader = roomUsers[roomId][0];
+            io.to(roomId).emit("set-leader", {
+                leaderId: newLeader.socketId,
+                leaderName: newLeader.username
+            } );
         }
+
+        io.to(roomId).emit("members-update", { roomUsers: roomUsers[roomId] } );
     } );
 });
 

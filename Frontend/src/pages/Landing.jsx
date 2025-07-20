@@ -16,7 +16,8 @@ export default function Landing() {
             icon: "success",
             title: "Logged Out Successfully.",
             showConfirmButton: false,
-            timer: 2000
+            timer: 2000,
+            timerProgressBar: true
         } );
         setIsLoggedIn(false);
     }

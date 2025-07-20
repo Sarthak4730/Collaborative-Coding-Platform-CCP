@@ -4,6 +4,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 
 import { LuEye } from "react-icons/lu";
 import { LuEyeClosed } from "react-icons/lu";
+import Swal from 'sweetalert2';
 
 export default function Login() {
     const [formData, setFormData] = useState( {
@@ -25,7 +26,15 @@ export default function Login() {
             localStorage.setItem("token", res.data.token);
             localStorage.setItem("username", res.data.username);
             console.log(res.data);
-            alert("Successfully Logged in to existing account");
+            // alert("Successfully Logged in to existing account");
+            Swal.fire( {
+                position: "top-end",
+                icon: "success",
+                title: "Successfully Logged in to existing account",
+                showConfirmButton: false,
+                timer: 2000,
+                timerProgressBar: true
+            } );
             navigate( location.state?.from || '/' );
         } catch (err) {
             setError(err.response?.data?.message || "Login Failed");

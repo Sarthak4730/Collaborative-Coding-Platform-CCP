@@ -17,7 +17,8 @@ export default function CreateRoom() {
             icon: "success",
             title: `Copied room code.<br/>Share with friends.`,
             showConfirmButton: false,
-            timer: 2000
+            timer: 2000,
+            timerProgressBar: true
         } );
     }
     const handleEnterRoom = () => {

@@ -8,6 +8,9 @@ import { Link, useParams } from "react-router-dom";
 
 import { FaPlay, FaHome } from "react-icons/fa";
 import { ThreeDot } from "react-loading-indicators";
+import { IoIosArrowDropdown, IoIosArrowDropup } from "react-icons/io";
+
+import Swal from "sweetalert2";
 
 export default function RoomPage() {
     // Code Editor Variables
@@ -21,21 +24,26 @@ export default function RoomPage() {
         java: `public class Main {\n\tpublic static void main(String[] args) {\n\t\tSystem.out.println("Hello World - Java");\n\t}\n}`,
         python: `print("Hello World - Python")`
     };
-    const [leaderName, setLeaderName] = useState("")
-    const [isLeader, setIsLeader] = useState(false);
-    const [language, setLanguage] = useState(languageOptions[0]);
-    const [isCodeRunning, setIsCodeRunning] = useState(false);
-    const [code, setCode] = useState(defaultCode.cpp);
     const [input, setInput] = useState('');
     const [output, setOutput] = useState('');
+    const [leaderName, setLeaderName] = useState("")
+    const [isLeader, setIsLeader] = useState(false);
+    const [isCodeRunning, setIsCodeRunning] = useState(false);
+    const [language, setLanguage] = useState(languageOptions[0]);
+    const [code, setCode] = useState(defaultCode.cpp);
 
     // Room Chatbox Variables
+    const [message, setMessage] = useState('');
+    const [membersDropdown, setMembersDropdown] = useState(false);
+    const [chatLog, setChatLog] = useState([]);
+    const [decorationIds, setDecorationIds] = useState([]);
+    const [otherCursors, setOtherCursors] = useState({});
+    const [roomUsers, setRoomUsers] = useState([]);
     const socketRef = useRef(null);
+    const lastMsg = useRef(null);
+    const editorRef = useRef(null);
     const { roomId } = useParams();
     const username = localStorage.getItem("username") || "Unknown";
-    const [chatLog, setChatLog] = useState([]);
-    const [message, setMessage] = useState('');
-    const lastMsg = useRef(null);
     
     // Code Editor Functions
     const runCode = async () => {
@@ -53,7 +61,7 @@ export default function RoomPage() {
                     stdin: input
                 }
             );
-                        
+
             const result = res.data;
             setOutput( result.run?.stdout || result.run?.stderr || result?.message || "No Output" );
             socketRef.current.emit("output-change", {
@@ -67,11 +75,32 @@ export default function RoomPage() {
             setIsCodeRunning(false);
         }
     }
-    
+
     // Room Chatbox Functions
+    const getColorForSocket = (socketId) => {
+        const colors = ['violet', 'purple', 'green', 'orange', 'teal', 'crimson'];
+        let hash = 0;
+        for(let i=0; i<colors.length; i++) hash += socketId.charCodeAt(i);
+        return colors[ hash % colors.length ];
+    }
+    const sendMessage = () => {
+        if(message.trim()){
+            socketRef.current.emit("send-message", {
+                roomId,
+                message,
+                sender: username
+            } );
+            setChatLog( (prev) => [ ...prev, { message, sender: username } ] );
+            setMessage("");
+        }
+    }
+    
+    // useEffects
+    // Chatbox - Auto-Scroll To Latest Message
     useEffect( () => {
         lastMsg.current?.scrollIntoView( { behaviour: "smooth" } );
     }, [chatLog] );
+
     useEffect( () => {
         socketRef.current = io("http://localhost:5000");
 
@@ -79,6 +108,16 @@ export default function RoomPage() {
         socketRef.current.emit("join-room", { roomId, username } );
 
         // ON calls
+        socketRef.current.on("join-room", ( { username } ) => {
+            Swal.fire( {
+                position: "top-end",
+                icon: "success",
+                title: `${username} Joined the room`,
+                showConfirmButton: false,
+                timer: 2000,
+                timerProgressBar: true
+            } );
+        } );
         socketRef.current.on("set-leader", ( { leaderId, leaderName } ) => {
             setLeaderName(leaderName);
             setIsLeader( socketRef.current.id === leaderId );
@@ -91,6 +130,40 @@ export default function RoomPage() {
             setLanguage(langObj);
             setCode(defaultCode[langVal]);
         } );
+        socketRef.current.on("members-update", ( { roomUsers } ) => {
+            setRoomUsers(roomUsers);
+            console.log("inside members-update, members = ", roomUsers.length);
+        } );
+        // Cursor Events
+        socketRef.current.on("cursor-update", ( { socketId, username, position } ) => {
+            if(socketId === socketRef.current.id) return;
+            setOtherCursors( (prev) => {
+                return {
+                    ...prev,
+                    [socketId]: {
+                        username,
+                        ...position,
+                        color: getColorForSocket(socketId)
+                    }
+                }
+            } );
+        } );
+        socketRef.current.on("user-disconnected", ( { socketId, username } ) => {
+            setOtherCursors( (prev) => {
+                const updated = { ...prev };
+                delete updated[socketId];
+                return updated;
+            } );
+            Swal.fire( {
+                position: "top-end",
+                icon: "success",
+                title: `${username} Left the room`,
+                showConfirmButton: false,
+                timer: 2000,
+                timerProgressBar: true
+            } );
+        } );
+        // Code-Input-Output Change
         socketRef.current.on("code-change", ( { code } ) => {
             setCode(code);
         } );
@@ -100,22 +173,70 @@ export default function RoomPage() {
         socketRef.current.on("output-change", ( { output } ) => {
             setOutput(output);
         } );
+        // Run Code
         socketRef.current.on("run-started", () => setIsCodeRunning(true));
         socketRef.current.on("run-finished", () => setIsCodeRunning(false));
-
+        
         return () => socketRef.current.disconnect();
     }, [roomId] );
-    const sendMessage = () => {
-        if(message.trim()){
-            socketRef.current.emit("send-message", {
-                roomId,
-                message,
-                sender: username
-            } );
-            setChatLog( (prev) => [ ...prev, { message, sender: username } ] );
-            setMessage("");
-        }
-    }
+    
+    // Cursor Decoration
+    useEffect( () => {
+        if( !editorRef.current ) return;
+
+        const decorations = Object.entries(otherCursors).map( ( [ id, { username, lineNumber, column, color } ] ) => {
+            return {
+                range: new monaco.Range(lineNumber, column, lineNumber, column),
+                options: {
+                    className: `remote-cursor-${id}`,
+                    afterContentClassName: `remote-username-${id}`
+                }
+            }
+        } );
+
+        const newDecorationIds = editorRef.current.deltaDecorations(decorationIds, decorations);
+        setDecorationIds(newDecorationIds);
+        
+        Object.entries(otherCursors).forEach( ( [ id, data ] ) => {
+            if( !document.getElementById("blink-cursor-style") ){
+                const blinkStyle = document.createElement("style");
+                blinkStyle.id = "blink-cursor-style";
+                blinkStyle.innerHTML = `
+                    @keyframes blink-cursor{
+                        0% { opacity: 1 }
+                        50% { opacity: 0 }
+                        100% { opacity: 1 }
+                    }
+                `;
+                document.head.appendChild(blinkStyle);
+            }
+            const styleId = `cursor-style-${id}`;
+            if( !document.getElementById(styleId) ){
+                const style = document.createElement("style");
+                style.id = styleId;
+                style.innerHTML = `
+                    .remote-cursor-${id} {
+                        border-left: 2px solid ${data.color};
+                        height: 100%;
+                        animation: blink-cursor 1s steps(2, start) infinite;
+                    }
+                    .remote-username-${id}::after {
+                        content: '${data.username}';
+                        background: ${data.color};
+                        color: white;
+                        padding: 2px 5px;
+                        font-size: 10px;
+                        border-radius: 4px;
+                        position: absolute;
+                        margin-top: 20px;
+                        z-index: 10;
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+        } );
+    }, [otherCursors] );
+
 
     return <>
         <div className="flex justify-center h-[100vh] items-center gap-7.5">
@@ -123,10 +244,10 @@ export default function RoomPage() {
             <div className="code-editor w-[60vw] h-[90vh] border-2 rounded-xl flex flex-col justify-evenly items-center">
                 {/* Top Row */}
                 <div className="top w-full h-[10vh] flex justify-between px-5 items-center">
-                    <h1 className="text-3xl font-bold underline underline-offset-5 decoration-blue-500 decoration-4">Code Editor</h1>
+                    <h1 className="text-2xl font-bold underline underline-offset-5 decoration-blue-500 decoration-4">Code Editor</h1>
                     
                     <div className="dropdown-hover-leader-alert relative group w-[8vw] border-2 border-blue-500 rounded-md">
-                        { !isLeader && <p className="text-xs p-2 rounded-md bg-blue-500 text-white absolute w-[12vw] left-full opacity-0 group-hover:opacity-100 transition-opacity duration-200">Only the Room Leader(👑)<br/>can change language</p> }
+                        { !isLeader && <p className="text-xs p-2 rounded-md bg-blue-500 text-white absolute w-[12vw] left-full -top-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">Only the Room Leader '👑'<br/>can change language</p> }
                         
                         <Select
                             isDisabled={!isLeader}
@@ -160,6 +281,18 @@ export default function RoomPage() {
                     options={ {
                         minimap: { enabled: false }
                     } }
+                    onMount={ (editor, monaco) => {
+                        editorRef.current = editor;
+
+                        editor.onDidChangeCursorPosition( (e) => {
+                            const position = e.position;
+                            socketRef.current.emit("cursor-update", {
+                                roomId, socketId: socketRef.current.id, username, position
+                            } );
+                        } );
+
+                        // editor.onDidChangeCursorSelection
+                    } }
                 />
 
                 {/* Bottom Row */}
@@ -186,7 +319,7 @@ export default function RoomPage() {
             </div>
 
             {
-                isCodeRunning && <div className="full-screen-loader absolute w-[100vw] h-[100vh] bg-black opacity-80 text-white text-3xl flex flex-col justify-center items-center gap-3">
+                isCodeRunning && <div className="full-screen-loader absolute w-[100vw] h-[100vh] bg-black opacity-80 text-white text-3xl flex flex-col justify-center items-center gap-3 z-100">
                     {<ThreeDot variant="bounce" color="#3b82f6" size="large" />}
                     <p>Running Code</p>
                 </div>
@@ -194,24 +327,41 @@ export default function RoomPage() {
             
             {/* ROOM CHATBOX */}
             <div className="room-chat w-[30vw] h-[90vh] border-2 rounded-xl flex flex-col justify-between py-5 items-center">
-                <div className="top-row flex w-full px-3 justify-between">
-                    <h1 className="text-3xl font-bold underline underline-offset-5 decoration-blue-500 decoration-4">Room Chat</h1>
+                <div className="top-row flex w-full px-3 justify-between items-center mb-2">
+                    <h1 className="text-2xl font-bold underline underline-offset-5 decoration-blue-500 decoration-4">Room Chat</h1>
+                    
+                    <div className="dropdown-div relative">
+                        <button onClick={ () => setMembersDropdown( (prev) => !prev ) } className="users-count flex w-[10vw] h-[5vh] justify-between items-center border-blue-500 border-2 rounded-lg px-2 font-bold cursor-pointer hover:scale-105">
+                            { membersDropdown ? <IoIosArrowDropup className="text-2xl"/> : <IoIosArrowDropdown className="text-2xl"/> }
+                            {roomUsers.length} Members
+                        </button>
+                        {
+                            membersDropdown && <ol className="members-ul border-blue-500 border-2 bg-white absolute w-[10vw] rounded-lg text-sm pl-2">
+                                { 
+                                    roomUsers.map( (u,idx) => {
+                                        return <li className="my-2" key={idx}><b>{idx+1}.</b> {u.username}{u.username === leaderName && '👑'}</li>
+                                    } )
+                                }
+                            </ol>
+                        }
+                    </div>
+                    
                     <Link to='/'>
-                        <button className="w-[7vw] h-[5.5vh] rounded-3xl cursor-pointer text-lg hover:scale-110 font-bold text-white bg-red-500 flex items-center justify-evenly">
+                        <button className="w-[5vw] h-[7.5vh] rounded-xl cursor-pointer hover:scale-105 font-bold text-white bg-red-500 flex flex-col items-center justify-evenly">
                             <FaHome className="text-2xl" />
                             Home
                         </button>
                     </Link>
                 </div>
 
-                <ul className="h-[70vh] overflow-y-auto">
+                <ul className="w-[25vw] h-[70vh] overflow-y-auto break-all whitespace-normal">
                     {
                         chatLog.map( (msg, idx) => (
-                            <li className="w-[25vw] flex gap-3 my-1" key={idx}>
-                                <span className="font-bold">
+                            <li className="flex my-2 justify-between" key={idx}>
+                                <span className="inline-block w-[10vw] font-bold">
                                     {msg.sender === leaderName && '👑'}{msg.sender}:
                                 </span>
-                                <p>{msg.message}</p>
+                                <p className="w-[14vw]">{msg.message}</p>
                             </li>
                         ) )
                     }
