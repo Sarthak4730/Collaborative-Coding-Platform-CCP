@@ -11,8 +11,9 @@ connectDB();
 
 const app = express();
 app.use( cors( {
-    origin: "https://ccp-by-sk.vercel.app/",
-    methods: ["GET", "POST"]
+    origin: "https://ccp-by-sk.vercel.app",
+    methods: ["GET", "POST"],
+    credentials: true
 } ) );
 app.use(express.json());
 app.use("/api/auth", authRoutes);
@@ -20,8 +21,9 @@ app.use("/api/auth", authRoutes);
 const server = http.createServer(app);
 const io = new Server( server, {
     cors: {
-        "origin": "https://ccp-by-sk.vercel.app/",
-        methods: ["GET", "POST"]
+        "origin": "https://ccp-by-sk.vercel.app",
+        methods: ["GET", "POST"],
+        credentials: true
     }
 } );
 
