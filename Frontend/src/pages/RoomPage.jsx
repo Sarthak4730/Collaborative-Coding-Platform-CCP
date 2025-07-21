@@ -113,15 +113,17 @@ export default function RoomPage() {
         socketRef.current.emit("join-room", { roomId, username } );
 
         // ON calls
-        socketRef.current.on("members-update", ( { username, roomUsers } ) => {
-            Swal.fire( {
-                position: "bottom-end",
-                icon: "success",
-                title: `${username} Joined the room`,
-                showConfirmButton: false,
-                timer: 2000,
-                timerProgressBar: true
-            } );
+        socketRef.current.on("members-update", ( { socketUsername, roomUsers } ) => {
+            if (socketUsername !== username) {
+                Swal.fire( {
+                    position: "bottom-end",
+                    icon: "success",
+                    title: `${socketUsername} Joined the room`,
+                    showConfirmButton: false,
+                    timer: 2000,
+                    timerProgressBar: true
+                } );
+            }
             setRoomUsers(roomUsers);            
         } );
         socketRef.current.on("set-leader", ( { leaderId, leaderName } ) => {

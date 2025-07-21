@@ -44,7 +44,7 @@ io.on("connection", (socket) => {
             leaderName: leader.username
         } );
 
-        io.to(roomId).emit("members-update", { username, roomUsers: roomUsers[roomId] } );
+        io.to(roomId).emit("members-update", { socketUsername: username, roomUsers: roomUsers[roomId] } );
     } );
 
     socket.on("send-message", ( { roomId, message, sender } ) => {
@@ -97,7 +97,7 @@ io.on("connection", (socket) => {
             } );
         }
 
-        io.to(roomId).emit("members-update", { roomUsers: roomUsers[roomId] } );
+        io.to(roomId).emit("members-update", { socketUsername: socket.username, roomUsers: roomUsers[roomId] } );
     } );
 });
 
