@@ -27,7 +27,7 @@ export default function Login() {
             localStorage.setItem("username", res.data.username);
             console.log(res.data);
             Swal.fire( {
-                position: "top-end",
+                position: "bottom-end",
                 icon: "success",
                 title: "Successfully Logged in to existing account",
                 showConfirmButton: false,

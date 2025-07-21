@@ -26,7 +26,7 @@ export default function Register() {
             localStorage.setItem("token", res.data.token);
             localStorage.setItem("username", res.data.username);
             Swal.fire( {
-                position: "top-end",
+                position: "bottom-end",
                 icon: "success",
                 title: "Successfully Registered new user",
                 showConfirmButton: false,

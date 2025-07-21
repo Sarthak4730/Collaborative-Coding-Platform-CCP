@@ -10,7 +10,7 @@ export default function JoinRoom() {
     const handleLogout = () => {
         localStorage.clear();
         Swal.fire( {
-            position: "top-end",
+            position: "bottom-end",
             icon: "success",
             title: "Logged Out Successfully.",
             showConfirmButton: false,

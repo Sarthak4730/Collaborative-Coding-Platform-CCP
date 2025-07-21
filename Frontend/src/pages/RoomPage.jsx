@@ -115,7 +115,7 @@ export default function RoomPage() {
         // ON calls
         socketRef.current.on("join-room", ( { username } ) => {
             Swal.fire( {
-                position: "top-end",
+                position: "bottom-end",
                 icon: "success",
                 title: `${username} Joined the room`,
                 showConfirmButton: false,
@@ -160,7 +160,7 @@ export default function RoomPage() {
                 return updated;
             } );
             Swal.fire( {
-                position: "top-end",
+                position: "bottom-end",
                 icon: "success",
                 title: `${username} Left the room`,
                 showConfirmButton: false,

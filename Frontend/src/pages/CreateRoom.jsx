@@ -11,7 +11,7 @@ export default function CreateRoom() {
     const handleLogout = () => {
         localStorage.clear();
         Swal.fire( {
-            position: "top-end",
+            position: "bottom-end",
             icon: "success",
             title: "Logged Out Successfully.",
             showConfirmButton: false,
@@ -27,7 +27,7 @@ export default function CreateRoom() {
         navigator.clipboard.writeText(roomCode);
 
         Swal.fire( {
-            position: "top-end",
+            position: "bottom-end",
             icon: "success",
             title: `Copied room code.<br/>Share with friends.`,
             showConfirmButton: false,
