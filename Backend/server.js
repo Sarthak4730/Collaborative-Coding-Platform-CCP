@@ -11,7 +11,7 @@ connectDB();
 
 const app = express();
 app.use( cors( {
-    origin: "", // vercel frontend url
+    origin: "https://ccp-by-sk.vercel.app/",
     methods: ["GET", "POST"]
 } ) );
 app.use(express.json());
@@ -20,7 +20,7 @@ app.use("/api/auth", authRoutes);
 const server = http.createServer(app);
 const io = new Server( server, {
     cors: {
-        "origin": "", // vercel frontend url
+        "origin": "https://ccp-by-sk.vercel.app/",
         methods: ["GET", "POST"]
     }
 } );
