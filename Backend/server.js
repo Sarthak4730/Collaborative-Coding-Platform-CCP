@@ -44,9 +44,7 @@ io.on("connection", (socket) => {
             leaderName: leader.username
         } );
 
-        socket.broadcast.to(roomId).emit("join-room", { username } );
-
-        io.to(roomId).emit("members-update", { roomUsers: roomUsers[roomId] } );
+        io.to(roomId).emit("members-update", { username, roomUsers: roomUsers[roomId] } );
     } );
 
     socket.on("send-message", ( { roomId, message, sender } ) => {

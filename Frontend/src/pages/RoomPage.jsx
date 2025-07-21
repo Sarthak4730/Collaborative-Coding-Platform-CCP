@@ -7,11 +7,11 @@ import { io } from "socket.io-client";
 import { Link, useParams } from "react-router-dom";
 
 import { FaPlay, FaHome } from "react-icons/fa";
-import { ThreeDot } from "react-loading-indicators";
 import { IoIosArrowDropdown, IoIosArrowDropup } from "react-icons/io";
 
 import Swal from "sweetalert2";
 import Navbar from "../components/Navbar";
+import Loader from "../components/Loader";
 
 export default function RoomPage() {
     // Code Editor Variables
@@ -113,7 +113,7 @@ export default function RoomPage() {
         socketRef.current.emit("join-room", { roomId, username } );
 
         // ON calls
-        socketRef.current.on("join-room", ( { username } ) => {
+        socketRef.current.on("members-update", ( { username, roomUsers } ) => {
             Swal.fire( {
                 position: "bottom-end",
                 icon: "success",
@@ -122,6 +122,7 @@ export default function RoomPage() {
                 timer: 2000,
                 timerProgressBar: true
             } );
+            setRoomUsers(roomUsers);            
         } );
         socketRef.current.on("set-leader", ( { leaderId, leaderName } ) => {
             setLeaderName(leaderName);
@@ -134,10 +135,6 @@ export default function RoomPage() {
             const langObj = languageOptions.find( (l) => l.value == langVal );
             setLanguage(langObj);
             setCode(defaultCode[langVal]);
-        } );
-        socketRef.current.on("members-update", ( { roomUsers } ) => {
-            setRoomUsers(roomUsers);
-            console.log("inside members-update, members = ", roomUsers.length);
         } );
         // Cursor Events
         socketRef.current.on("cursor-update", ( { socketId, username, position } ) => {
@@ -325,12 +322,7 @@ export default function RoomPage() {
                 </div>
             </div>
 
-            {
-                isCodeRunning && <div className="full-screen-loader absolute w-[100vw] h-[100vh] bg-black opacity-80 text-white text-3xl flex flex-col justify-center items-center gap-3 z-100">
-                    {<ThreeDot variant="bounce" color="#3b82f6" size="large" />}
-                    <p>Running Code</p>
-                </div>
-            }
+            { isCodeRunning && <Loader /> }
             
             {/* ROOM CHATBOX */}
             <div className="room-chat h-full w-[30vw] border-2 rounded-xl flex flex-col justify-evenly items-center">
