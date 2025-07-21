@@ -1,11 +1,25 @@
 import { useState } from 'react';
 import Swal from 'sweetalert2';
 import { useNavigate } from "react-router-dom";
+import Navbar from '../components/Navbar';
 
 export default function CreateRoom() {
     const [roomCode] = useState( () => generateRoomCode() );
+    const [isLoggedIn, setIsLoggedIn] = useState( localStorage.length != 0 );
     const navigate = useNavigate();
 
+    const handleLogout = () => {
+        localStorage.clear();
+        Swal.fire( {
+            position: "top-end",
+            icon: "success",
+            title: "Logged Out Successfully.",
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true
+        } );
+        setIsLoggedIn(false);
+    }
     function generateRoomCode() {
         return Math.random().toString(36).slice(2, 8).toUpperCase();
     }
@@ -26,13 +40,14 @@ export default function CreateRoom() {
     }
 
     return <>
-        <nav className="intro h-[25vh] bg-blue-500 text-white flex flex-col justify-center items-center">
+        {/* <nav className="intro h-[25vh] bg-blue-500 text-white flex flex-col justify-center items-center">
             <h1 className="text-3xl font-bold">Collaborative Coding Platform (CCP)</h1>
             <h3 className="text-xl">Zero Setup. Multi-Language. Real-Time.</h3>
             <p className="font-semibold text-gray-300">Create/Join a room - Write & Run code together - Chat about errors, bugs and fixes.</p>
-        </nav>
+        </nav> */}
+        <Navbar />
 
-        <div className="container flex flex-col items-center h-[50vh] justify-evenly">
+        <div className="container flex flex-col items-center mt-[10vh] h-[50vh] justify-evenly">
             <h1 className="text-4xl font-bold">Room Created</h1>       
             <h4 className="text-2xl">Room Code: <span className="font-bold text-2xl">{roomCode}</span></h4>
 
