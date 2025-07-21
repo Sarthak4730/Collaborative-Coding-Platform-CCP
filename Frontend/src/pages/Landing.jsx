@@ -41,7 +41,7 @@ export default function Landing() {
             <div className="right">
                 <DotLottieReact
                     style={ { width: "35vw" } }
-                    src="https://lottie.host/9b26927c-fc08-45b5-9144-c6b5d64f3cfa/xVtDpFOcMo.lottie"
+                    src="/landingPageArt.lottie"
                     loop
                     autoplay
                 />
