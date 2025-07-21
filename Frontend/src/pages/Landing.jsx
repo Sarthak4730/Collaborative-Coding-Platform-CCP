@@ -17,8 +17,8 @@ export default function Landing() {
         else navigate("/login", { state: { from: target } } );
     }
 
-    return <>
-        <section className="hero h-[100vh] bg-gradient-to-r from-[#3b82f6] to-[#ef4444] flex justify-evenly items-center gap-3">
+    return <div className="h-[100vh] overflow-y-scroll snap-y snap-mandatory">
+        <section className="hero h-[100vh] snap-start bg-gradient-to-r from-[#3b82f6] to-[#ef4444] flex justify-evenly items-center gap-3">
             <div className="left">
                 <h1 className="text-5xl font-bold text-white">Collaborative Coding Platform</h1>
                 <div className="text-xl font-semibold mt-3">
@@ -51,27 +51,7 @@ export default function Landing() {
             </div>
         </section>
 
-        <section className="navbar-and-features-and-buttons">
-            {/* <nav className="navbar h-[15vh] bg-gradient-to-r from-[#3b82f6] to-[#ef4444] text-white font-bold flex justify-between px-[2vw] items-center">
-                <div className="left flex items-center gap-2">
-                    <img src="logo.svg" alt="logo" className="w-[3vw] h-[3vw] border-2 border-white rounded-lg"/>
-                    <h1 className="text-2xl">Collaborative Coding Platform</h1>
-                </div>
-
-                <div className="right flex gap-4 items-center">
-                    <div className="hover:scale-110 transition flex w-[7vw] justify-evenly">
-                        <FaGithub className="text-2xl"/>
-                        <h3><a className="hover:text-blue-300" href="https://github.com/Sarthak4730/Collaborative-Coding-Platform-CCP" target="_blank">Github</a></h3>
-                    </div>
-                    <div className="hover:scale-110 transition flex w-[7vw] justify-evenly">
-                        <IoIosMail className="text-2xl"/>
-                        <a className="hover:text-blue-300" href="mailto:sarthak.kharade.dev@gmail.com">Contact</a>
-                    </div>
-                    {
-                        isLoggedIn && <button onClick={handleLogout} className="w-[7vw] h-[7vh] rounded-xl cursor-pointer text-lg transition hover:scale-110 font-bold border-2 border-black bg-white text-red-500">Logout</button>
-                    }
-                </div>
-            </nav> */}
+        <section className="navbar-and-features-and-buttons h-[100vh] snap-start">
             <Navbar />
 
             <div className="features h-[60vh] grid grid-cols-2 grid-rows-2 p-[3vw] gap-[3vw]">
@@ -139,5 +119,5 @@ export default function Landing() {
                 </button>
             </div>
         </section>
-    </>
+    </div>
 };

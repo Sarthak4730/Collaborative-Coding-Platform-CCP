@@ -61,11 +61,11 @@ io.on("connection", (socket) => {
     } );
     // Code-Input-Output Changes END
 
-    // Cursor Events START
+    // Cursor Event START
     socket.on("cursor-update", ( { roomId, ...data } ) => {
         socket.to(roomId).emit("cursor-update", data );
     } );
-    // Cursor Events END
+    // Cursor Event END
 
     // RUN CODE START
     socket.on("run-started", (roomId) => {

@@ -11,6 +11,7 @@ import { ThreeDot } from "react-loading-indicators";
 import { IoIosArrowDropdown, IoIosArrowDropup } from "react-icons/io";
 
 import Swal from "sweetalert2";
+import Navbar from "../components/Navbar";
 
 export default function RoomPage() {
     // Code Editor Variables
@@ -239,11 +240,13 @@ export default function RoomPage() {
 
 
     return <>
-        <div className="flex justify-center h-[100vh] items-center gap-7.5">
+        <Navbar />
+
+        <div className="flex justify-evenly h-[75vh] mt-[5vh]">
             {/* CODE EDITOR */}
-            <div className="code-editor w-[60vw] h-[90vh] border-2 rounded-xl flex flex-col justify-evenly items-center">
+            <div className="code-editor h-full w-[60vw] border-2 rounded-xl flex flex-col">
                 {/* Top Row */}
-                <div className="top w-full h-[10vh] flex justify-between px-5 items-center">
+                <div className="top w-full h-[14vh] flex justify-between px-5 items-center">
                     <h1 className="text-2xl font-bold underline underline-offset-5 decoration-blue-500 decoration-4">Code Editor</h1>
                     
                     <div className="dropdown-hover-leader-alert relative group w-[8vw] border-2 border-blue-500 rounded-md">
@@ -270,7 +273,7 @@ export default function RoomPage() {
 
                 {/* Center Code Editor */}
                 <Editor
-                    height="50vh"
+                    height="35vh"
                     theme="vs-dark"
                     language={language.value}
                     value={code}
@@ -296,8 +299,8 @@ export default function RoomPage() {
                 />
 
                 {/* Bottom Row */}
-                <div className="stdin-and-stdout-div flex">
-                    <div className="INput-div w-[30vw] h-[25vh]">
+                <div className="stdin-and-stdout-div h-[18vh] flex">
+                    <div className="INput-div w-[30vw] h-full">
                         <h3 className="py-2 pl-3 text-xl font-bold underline underline-offset-3 decoration-blue-500 decoration-3">Input :</h3>
                         <textarea
                             value={input}
@@ -306,12 +309,12 @@ export default function RoomPage() {
                                 socketRef.current.emit("input-change", { roomId, input: e.target.value } );
                             } }
                             placeholder="Enter your custom input here..."
-                            className="rounded-lg h-[18vh] ml-2 p-2 w-[29vw] mx-auto overflow-y-auto bg-neutral-800 text-white"
+                            className="rounded-lg ml-2 p-2 w-[29vw] h-full mx-auto overflow-y-auto bg-neutral-800 text-white"
                         />
                     </div>
-                    <div className="OUTput-div w-[30vw] h-[25vh]">
+                    <div className="OUTput-div w-[30vw] h-full">
                         <h3 className="py-2 pl-3 text-xl font-bold underline underline-offset-3 decoration-blue-500 decoration-3">Output :</h3>
-                        <div className="rounded-lg h-[18vh] p-2 w-[29vw] mx-auto overflow-y-auto bg-neutral-800 text-white">
+                        <div className="rounded-lg p-2 w-[29vw] h-full mx-auto overflow-y-auto bg-neutral-800 text-white">
                             <pre>{output}</pre>
                         </div>
                     </div>
@@ -326,17 +329,17 @@ export default function RoomPage() {
             }
             
             {/* ROOM CHATBOX */}
-            <div className="room-chat w-[30vw] h-[90vh] border-2 rounded-xl flex flex-col justify-between py-5 items-center">
-                <div className="top-row flex w-full px-3 justify-between items-center mb-2">
-                    <h1 className="text-2xl font-bold underline underline-offset-5 decoration-blue-500 decoration-4">Room Chat</h1>
+            <div className="room-chat h-full w-[30vw] border-2 rounded-xl flex flex-col justify-evenly items-center">
+                <div className="top-row h-[7.5vh] w-full px-3 flex justify-between items-center">
+                    <h1 className="text-2xl font-bold underline underline-offset-5 decoration-red-500 decoration-4">Room Chat</h1>
                     
                     <div className="dropdown-div relative">
-                        <button onClick={ () => setMembersDropdown( (prev) => !prev ) } className="users-count flex w-[10vw] h-[5vh] justify-between items-center border-blue-500 border-2 rounded-lg px-2 font-bold cursor-pointer hover:scale-105">
+                        <button onClick={ () => setMembersDropdown( (prev) => !prev ) } className="users-count flex w-[10vw] h-[5vh] justify-between items-center border-red-500 border-2 rounded-lg px-2 font-bold cursor-pointer hover:scale-105">
                             { membersDropdown ? <IoIosArrowDropup className="text-2xl"/> : <IoIosArrowDropdown className="text-2xl"/> }
                             {roomUsers.length} Members
                         </button>
                         {
-                            membersDropdown && <ol className="members-ul border-blue-500 border-2 bg-white absolute w-[10vw] rounded-lg text-sm pl-2">
+                            membersDropdown && <ol className="members-ul border-red-500 border-2 bg-white absolute w-[10vw] rounded-lg text-sm pl-2">
                                 { 
                                     roomUsers.map( (u,idx) => {
                                         return <li className="my-2" key={idx}><b>{idx+1}.</b> {u.username}{u.username === leaderName && '👑'}</li>
@@ -347,30 +350,30 @@ export default function RoomPage() {
                     </div>
                     
                     <Link to='/'>
-                        <button className="w-[5vw] h-[7.5vh] rounded-xl cursor-pointer hover:scale-105 font-bold text-white bg-red-500 flex flex-col items-center justify-evenly">
+                        <button className="w-[5vw] h-[6vh] rounded-xl cursor-pointer hover:scale-105 font-bold text-white bg-red-500 flex flex-col items-center justify-evenly">
                             <FaHome className="text-2xl" />
-                            Home
+                            <p className="text-sm">Home</p>
                         </button>
                     </Link>
                 </div>
 
-                <ul className="w-[25vw] h-[70vh] overflow-y-auto break-all whitespace-normal">
+                <ul className="chats h-[50vh] w-full overflow-y-auto break-all whitespace-normal">
                     {
                         chatLog.map( (msg, idx) => (
-                            <li className="flex my-2 justify-between" key={idx}>
+                            <li className="flex justify-between px-3 my-3" key={idx}>
                                 <span className="inline-block w-[10vw] font-bold">
                                     {msg.sender === leaderName && '👑'}{msg.sender}:
                                 </span>
-                                <p className="w-[14vw]">{msg.message}</p>
+                                <p className="w-[16vw]">{msg.message}</p>
                             </li>
                         ) )
                     }
                     <div ref={lastMsg} className="div-for-lastMsg" />
                 </ul>
 
-                <div className="input-msg-div w-[25vw] flex justify-between">
-                    <input className="border-2 border-blue-500 bg-white rounded-2xl pl-4 h-10 w-[19.5vw]" type="text" value={message} placeholder="Type your message" onChange={ (e) => setMessage(e.target.value) } onKeyDown={ (e) => e.key === "Enter" && sendMessage() } required/>
-                    <button onClick={sendMessage} className="w-[5vw] h-[5.5vh] rounded-3xl cursor-pointer text-lg hover:scale-105 font-bold text-white bg-blue-500"> Send </button>
+                <div className="input-msg-div h-[7.5vh] w-full px-3 flex justify-between items-center">
+                    <input className="border-2 border-red-500 bg-white rounded-2xl pl-4 h-10 w-[22vw]" type="text" value={message} placeholder="Type your message" onChange={ (e) => setMessage(e.target.value) } onKeyDown={ (e) => e.key === "Enter" && sendMessage() } required/>
+                    <button onClick={sendMessage} className="w-[5.5vw] h-[5.5vh] rounded-3xl cursor-pointer text-lg hover:scale-105 font-bold text-white bg-red-500"> Send </button>
                 </div>
             </div>
         </div>

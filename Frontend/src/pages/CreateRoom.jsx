@@ -40,11 +40,6 @@ export default function CreateRoom() {
     }
 
     return <>
-        {/* <nav className="intro h-[25vh] bg-blue-500 text-white flex flex-col justify-center items-center">
-            <h1 className="text-3xl font-bold">Collaborative Coding Platform (CCP)</h1>
-            <h3 className="text-xl">Zero Setup. Multi-Language. Real-Time.</h3>
-            <p className="font-semibold text-gray-300">Create/Join a room - Write & Run code together - Chat about errors, bugs and fixes.</p>
-        </nav> */}
         <Navbar />
 
         <div className="container flex flex-col items-center mt-[10vh] h-[50vh] justify-evenly">

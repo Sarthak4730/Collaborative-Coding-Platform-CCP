@@ -25,7 +25,6 @@ export default function Register() {
             const res = await axios.post("http://localhost:5000/api/auth/register", formData);
             localStorage.setItem("token", res.data.token);
             localStorage.setItem("username", res.data.username);
-            // alert("Successfully Registered new user");
             Swal.fire( {
                 position: "top-end",
                 icon: "success",

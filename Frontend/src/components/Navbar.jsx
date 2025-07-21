@@ -25,7 +25,7 @@ const Navbar = () => {
     return <nav className="navbar h-[15vh] bg-gradient-to-r from-[#3b82f6] to-[#ef4444] text-white font-bold flex justify-between px-[2vw] items-center">
         <div className="left flex items-center gap-2">
             <button onClick={ () => navigate('/') }>
-                <img src="logo.svg" alt="logo" className="w-[3vw] h-[3vw] cursor-pointer border-2 border-white rounded-lg"/>
+                <img src="/logo.svg" alt="logo" className="w-[3vw] h-[3vw] cursor-pointer hover:scale-110 transition border-2 border-white rounded-lg"/>
             </button>
             <h1 className="text-2xl">Collaborative Coding Platform</h1>
         </div>
