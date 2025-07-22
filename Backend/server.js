@@ -36,7 +36,10 @@ io.on("connection", (socket) => {
         socket.username = username;
 
         if(!roomUsers[roomId]) roomUsers[roomId] = [];
-        roomUsers[roomId].push( { socketId: socket.id, username } );
+        roomUsers[roomId].push( {
+            socketId: socket.id,
+            username
+        } );
 
         const leader = roomUsers[roomId][0];
         io.to(roomId).emit("set-leader", {
@@ -44,7 +47,11 @@ io.on("connection", (socket) => {
             leaderName: leader.username
         } );
 
-        io.to(roomId).emit("members-update", { socketUsername: username, roomUsers: roomUsers[roomId] } );
+        io.to(roomId).emit("members-update", {
+            type: "joined",
+            socketUsername: username,
+            roomUsers: roomUsers[roomId]
+        } );
     } );
 
     socket.on("send-message", ( { roomId, message, sender } ) => {
@@ -97,7 +104,11 @@ io.on("connection", (socket) => {
             } );
         }
 
-        io.to(roomId).emit("members-update", { socketUsername: socket.username, roomUsers: roomUsers[roomId] } );
+        io.to(roomId).emit("members-update", {
+            type: "left",
+            socketUsername: socket.username,
+            roomUsers: roomUsers[roomId]
+        } );
     } );
 });
 

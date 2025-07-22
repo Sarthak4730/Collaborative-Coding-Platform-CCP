@@ -113,12 +113,12 @@ export default function RoomPage() {
         socketRef.current.emit("join-room", { roomId, username } );
 
         // ON calls
-        socketRef.current.on("members-update", ( { socketUsername, roomUsers } ) => {
+        socketRef.current.on("members-update", ( { type, socketUsername, roomUsers } ) => {
             if (socketUsername !== username) {
                 Swal.fire( {
                     position: "bottom-end",
                     icon: "success",
-                    title: `${socketUsername} Joined the room`,
+                    title: `${socketUsername} ${type} the room`,
                     showConfirmButton: false,
                     timer: 2000,
                     timerProgressBar: true
