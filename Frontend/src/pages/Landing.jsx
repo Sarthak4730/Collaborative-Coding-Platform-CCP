@@ -54,7 +54,7 @@ export default function Landing() {
         <section className="navbar-and-features-and-buttons h-[100vh] snap-start">
             <Navbar />
 
-            <div className="features h-[60vh] grid grid-cols-2 grid-rows-2 px-[3vw] gap-[3vw]">
+            <div className="features h-[60vh] grid grid-cols-2 grid-rows-2 px-[3vw] pt-[1vw] gap-[3vw]">
                 <Tilt
                     glareEnable={true}
                     glareMaxOpacity={0.2}
@@ -68,7 +68,7 @@ export default function Landing() {
                         <h4 className="font-bold text-2xl">Built-in chatbox.</h4>
                         <p>Text chat with room members.</p>
                     </div>
-                    <img className="h-[20vh] transition-transform duration-300 ease-in-out hover:scale-110" src="/Chatbox.png" alt="pic" />
+                    <img className="h-[20vh] transition hover:scale-130" src="/Chatbox.png" alt="pic" />
                 </Tilt>
 
                 <Tilt
@@ -84,7 +84,7 @@ export default function Landing() {
                         <h4 className="font-bold text-2xl">Real-time collaboration.</h4>
                         <p>Code together, see each other's cursors live.</p>
                     </div>
-                    <img className="h-[20vh] transition-transform duration-300 ease-in-out hover:scale-110" src="/Cursors.png" alt="pic" />
+                    <img className="h-[20vh] transition hover:scale-130" src="/Cursors.png" alt="pic" />
                 </Tilt>
 
                 <Tilt
@@ -100,7 +100,7 @@ export default function Landing() {
                         <h4 className="font-bold text-2xl">Multi-language support.</h4>
                         <p>C++, Java, & Python - compile & run instantly.</p>
                     </div>
-                    <img className="h-[20vh] transition-transform duration-300 ease-in-out hover:scale-110" src="/Languages.png" alt="pic" />
+                    <img className="h-[20vh] transition hover:scale-130" src="/Languages.png" alt="pic" />
                 </Tilt>
 
                 <Tilt
@@ -116,7 +116,7 @@ export default function Landing() {
                         <h4 className="font-bold text-2xl">Secure room access.</h4>
                         <p>Login protected and JWT-authenticated rooms.</p>
                     </div>
-                    <img className="h-[20vh] transition-transform duration-300 ease-in-out hover:scale-110" src="/Login.png" alt="pic" />
+                    <img className="h-[20vh] transition hover:scale-130" src="/Login.png" alt="pic" />
                 </Tilt>
             </div>
 
