@@ -62,13 +62,13 @@ export default function Landing() {
                     tiltMaxAngleX={15}
                     tiltMaxAngleY={15}
                     transitionSpeed={250}
-                    className="rounded-xl shadow-lg bg-white p-6 hover:shadow-2xl flex justify-between items-center border-2 border-blue-500"
+                    className="rounded-xl shadow-lg bg-white p-6 hover:scale-120 hover:shadow-2xl flex justify-between items-center border-2 border-blue-500"
                 >
                     <div className="left">
                         <h4 className="font-bold text-2xl">Built-in chatbox.</h4>
                         <p>Text chat with room members.</p>
                     </div>
-                    <img className="hover:scale-150" src="/Chatbox.png" alt="pic" />
+                    <img src="/Chatbox.png" alt="pic" />
                 </Tilt>
 
                 <Tilt
@@ -78,13 +78,13 @@ export default function Landing() {
                     tiltMaxAngleX={15}
                     tiltMaxAngleY={15}
                     transitionSpeed={250}
-                    className="rounded-xl shadow-lg bg-white p-6 hover:shadow-2xl flex justify-between items-center border-2 border-red-500"
+                    className="rounded-xl shadow-lg bg-white p-6 hover:scale-120 hover:shadow-2xl flex justify-between items-center border-2 border-red-500"
                 >
                     <div className="left">
                         <h4 className="font-bold text-2xl">Real-time collaboration.</h4>
                         <p>Code together, see each other's cursors live.</p>
                     </div>
-                    <img className="hover:scale-150" src="/Cursors.png" alt="pic" />
+                    <img src="/Cursors.png" alt="pic" />
                 </Tilt>
 
                 <Tilt
@@ -94,13 +94,13 @@ export default function Landing() {
                     tiltMaxAngleX={15}
                     tiltMaxAngleY={15}
                     transitionSpeed={250}
-                    className="rounded-xl shadow-lg bg-white p-6 hover:shadow-2xl flex justify-between items-center border-2 border-blue-500"
+                    className="rounded-xl shadow-lg bg-white p-6 hover:scale-120 hover:shadow-2xl flex justify-between items-center border-2 border-blue-500"
                 >
                     <div className="left">
                         <h4 className="font-bold text-2xl">Multi-language support.</h4>
                         <p>C++, Java, & Python - compile & run instantly.</p>
                     </div>
-                    <img className="hover:scale-150" src="/Languages.png" alt="pic" />
+                    <img src="/Languages.png" alt="pic" />
                 </Tilt>
 
                 <Tilt
@@ -110,13 +110,13 @@ export default function Landing() {
                     tiltMaxAngleX={15}
                     tiltMaxAngleY={15}
                     transitionSpeed={250}
-                    className="rounded-xl shadow-lg bg-white p-6 hover:shadow-2xl flex justify-between items-center border-2 border-red-500"
+                    className="rounded-xl shadow-lg bg-white p-6 hover:scale-120 hover:shadow-2xl flex justify-between items-center border-2 border-red-500"
                 >
                     <div className="left">
                         <h4 className="font-bold text-2xl">Secure room access.</h4>
                         <p>Login protected and JWT-authenticated rooms.</p>
                     </div>
-                    <img className="hover:scale-150" src="/Login.png" alt="pic" />
+                    <img src="/Login.png" alt="pic" />
                 </Tilt>
             </div>
 
