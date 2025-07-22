@@ -265,13 +265,13 @@ export default function RoomPage() {
                 <div className="top w-full h-[14vh] flex justify-between px-5 items-center">
                     <div className="left w-[20vw] flex justify-between">
                         <h1 className="text-2xl font-bold underline underline-offset-5 decoration-blue-500 decoration-4">Code Editor</h1>
-                        <div className="room-code-copy flex w-[10vw] h-[5.5vh] justify-between items-center border-blue-500 border-2 rounded-lg px-2 font-bold">
+                        <div className="room-code-copy flex w-[7.5vw] h-[5.5vh] justify-between items-center border-blue-500 border-2 rounded-lg px-2 font-bold">
                             {roomId}
                             <MdContentCopy className="cursor-pointer transition hover:scale-105" onClick={handleCopy}/>
                         </div>
                     </div>
                     
-                    <div className="right w-[20vw] flex justify-between">
+                    <div className="right w-[30vw] flex justify-between">
                         <div className="dropdown-hover-leader-alert relative group w-[8vw] border-2 border-blue-500 rounded-md">
                             { !isLeader && <p className="text-xs p-2 rounded-md bg-blue-500 text-white absolute w-[12vw] left-full -top-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">Only the Room Leader '👑'<br/>can change language</p> }
                             
