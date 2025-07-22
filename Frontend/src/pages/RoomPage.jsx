@@ -8,6 +8,7 @@ import { Link, useParams } from "react-router-dom";
 
 import { FaPlay, FaHome } from "react-icons/fa";
 import { IoIosArrowDropdown, IoIosArrowDropup } from "react-icons/io";
+import { MdContentCopy } from "react-icons/md";
 
 import Swal from "sweetalert2";
 import Navbar from "../components/Navbar";
@@ -47,6 +48,18 @@ export default function RoomPage() {
     const username = localStorage.getItem("username") || "Unknown";
     
     // Code Editor Functions
+    const handleCopy = () => {
+        navigator.clipboard.writeText(roomId);
+
+        Swal.fire( {
+            position: "bottom-end",
+            icon: "success",
+            title: `Copied room code.<br/>Share with friends.`,
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true
+        } );
+    }
     const runCode = async () => {
         try {
             socketRef.current.emit("run-started", roomId);
@@ -250,28 +263,35 @@ export default function RoomPage() {
             <div className="code-editor h-full w-[60vw] border-2 rounded-xl flex flex-col">
                 {/* Top Row */}
                 <div className="top w-full h-[14vh] flex justify-between px-5 items-center">
-                    <h1 className="text-2xl font-bold underline underline-offset-5 decoration-blue-500 decoration-4">Code Editor</h1>
-                    
-                    <div className="dropdown-hover-leader-alert relative group w-[8vw] border-2 border-blue-500 rounded-md">
-                        { !isLeader && <p className="text-xs p-2 rounded-md bg-blue-500 text-white absolute w-[12vw] left-full -top-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">Only the Room Leader '👑'<br/>can change language</p> }
-                        
-                        <Select
-                            isDisabled={!isLeader}
-                            isSearchable={false}
-                            options={languageOptions}
-                            value={language}
-                            onChange={ (lang) => {
-                                setLanguage(lang);
-                                setCode(defaultCode[lang.value]);
-                                socketRef.current.emit("language-change", { roomId, lang: lang.value } );
-                            } }
-                        />
+                    <div className="left">
+                        <h1 className="text-2xl font-bold underline underline-offset-5 decoration-blue-500 decoration-4">Code Editor</h1>
+                        <div className="room-code-copy flex w-[10vw] h-[5.5vh] justify-between items-center border-blue-500 border-2 rounded-lg px-2 font-bold">
+                            {roomId}
+                            <MdContentCopy className="cursor-pointer transition hover:scale-105" onClick={handleCopy}/>
+                        </div>
                     </div>
-
-                    <button className="w-[8vw] h-[5.5vh] cursor-pointer text-lg hover:scale-105 font-bold text-white bg-blue-500 flex justify-evenly items-center rounded-md" onClick={runCode} > 
-                        <FaPlay className="text-white" />
-                        Run Code 
-                    </button>
+                    
+                    <div className="right">
+                        <div className="dropdown-hover-leader-alert relative group w-[8vw] border-2 border-blue-500 rounded-md">
+                            { !isLeader && <p className="text-xs p-2 rounded-md bg-blue-500 text-white absolute w-[12vw] left-full -top-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">Only the Room Leader '👑'<br/>can change language</p> }
+                            
+                            <Select
+                                isDisabled={!isLeader}
+                                isSearchable={false}
+                                options={languageOptions}
+                                value={language}
+                                onChange={ (lang) => {
+                                    setLanguage(lang);
+                                    setCode(defaultCode[lang.value]);
+                                    socketRef.current.emit("language-change", { roomId, lang: lang.value } );
+                                } }
+                            />
+                        </div>
+                        <button className="w-[8vw] h-[5.5vh] cursor-pointer text-lg hover:scale-105 font-bold text-white bg-blue-500 flex justify-evenly items-center rounded-md" onClick={runCode} > 
+                            <FaPlay className="text-white" />
+                            Run Code 
+                        </button>
+                    </div>
                 </div>
 
                 {/* Center Code Editor */}
