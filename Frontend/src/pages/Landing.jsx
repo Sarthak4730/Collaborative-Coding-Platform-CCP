@@ -31,9 +31,9 @@ export default function Landing() {
                         loop="0"
                         typeSpeed="80"
                         words={ [
-                            "cout<<\"Zero-Setup. Multi-Language. Real-Time.\";",
-                            "System.out.println(\"Zero Setup. Multi-Language. Real-Time.\");",
-                            "print('Zero Setup. Multi-Language. Real-Time.')"
+                            "cout << \"Zero-Setup.\";",
+                            "System.out.println(\"Multi-Language.\");",
+                            "print('Real-Time.')"
                         ] }
                     />
                 </div>
