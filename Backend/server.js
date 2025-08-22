@@ -9,22 +9,21 @@ import authRoutes from "./routes/authRoutes.js";
 dotenv.config();
 connectDB();
 
-const app = express();
-app.use( cors( {
-    origin: "https://ccp-by-sk.vercel.app",
+const corsOptions = {
+    // origin: "https://ccp-by-sk.vercel.app",
+    origin: "http://localhost:3000",
     methods: ["GET", "POST"],
     credentials: true
-} ) );
+}
+
+const app = express();
+app.use( cors( corsOptions ) );
 app.use(express.json());
 app.use("/api/auth", authRoutes);
 
 const server = http.createServer(app);
 const io = new Server( server, {
-    cors: {
-        "origin": "https://ccp-by-sk.vercel.app",
-        methods: ["GET", "POST"],
-        credentials: true
-    }
+    cors: corsOptions
 } );
 
 const roomUsers = {};

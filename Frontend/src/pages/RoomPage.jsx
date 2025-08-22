@@ -116,11 +116,11 @@ export default function RoomPage() {
     }, [chatLog] );
 
     useEffect( () => {
-        // socketRef.current = io("http://localhost:5000");
-        socketRef.current = io(import.meta.env.VITE_BACKEND_URL, {
-            transports: ["websocket"],
-            withCredentials: true,
-        });
+        // socketRef.current = io(import.meta.env.VITE_BACKEND_URL, {
+        //     transports: ["websocket"],
+        //     withCredentials: true,
+        // });
+        socketRef.current = io("http://localhost:5000");
 
         // EMIT call
         socketRef.current.emit("join-room", { roomId, username } );
