@@ -17,9 +17,9 @@ export default function Landing() {
         else navigate("/login", { state: { from: target } } );
     }
 
-    return <div className="h-[100vh] overflow-y-scroll snap-y snap-mandatory">
-        <section className="hero h-[100vh] snap-start bg-gradient-to-r from-[#3b82f6] to-[#ef4444] flex justify-evenly items-center gap-3">
-            <div className="left">
+    return <div className="h-screen overflow-y-scroll snap-y snap-mandatory">
+        <section className="hero h-screen snap-start bg-gradient-to-r from-[#3b82f6] to-[#ef4444] flex flex-col md:flex-row justify-evenly items-center gap-3">
+            <div className="left/top text-center md:text-start">
                 <h1 className="text-5xl font-bold text-white">Collaborative Coding Platform</h1>
                 <div className="text-xl font-semibold mt-3">
                     <Typewriter
@@ -38,9 +38,10 @@ export default function Landing() {
                     />
                 </div>
             </div>
-            <div className="right">
+            <div className="right/bottom">
                 <DotLottieReact
-                    style={ { width: "35vw" } }
+                    className="w-screen md:w-[35vw]"
+                    // style={ { width: "35vw" } }
                     src="/landingPageArt.lottie"
                     loop
                     autoplay
@@ -51,7 +52,7 @@ export default function Landing() {
             </div>
         </section>
 
-        <section className="navbar-and-features-and-buttons h-[100vh] snap-start">
+        <section className="navbar-and-features-and-buttons h-screen snap-start">
             <Navbar />
 
             <div className="features h-[60vh] grid grid-cols-2 grid-rows-2 px-[3vw] pt-[1vw] gap-[3vw]">
