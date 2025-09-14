@@ -18,6 +18,7 @@ export default function Landing() {
     }
 
     return <div className="h-screen overflow-y-scroll snap-y snap-mandatory">
+    {/* return <div className="h-screen"> */}
         <section className="hero h-screen snap-start bg-gradient-to-r from-[#3b82f6] to-[#ef4444] flex flex-col md:flex-row justify-evenly items-center gap-3">
             <div className="left/top text-center md:text-start">
                 <h1 className="text-5xl font-bold text-white">Collaborative Coding Platform</h1>
@@ -55,7 +56,7 @@ export default function Landing() {
         <section className="navbar-and-features-and-buttons h-screen snap-start">
             <Navbar />
 
-            <div className="features h-[60vh] grid grid-cols-2 grid-rows-2 px-[3vw] pt-[1vw] gap-[3vw]">
+            <div className="features flex flex-col md:h-[60vh] md:grid md:grid-cols-2 md:grid-rows-2 px-[3vw] pt-8 md:pt-[2vw] gap-8 md:gap-[3vw]">
                 <Tilt
                     glareEnable={true}
                     glareMaxOpacity={0.2}
@@ -63,13 +64,13 @@ export default function Landing() {
                     tiltMaxAngleX={15}
                     tiltMaxAngleY={15}
                     transitionSpeed={250}
-                    className="rounded-xl shadow-lg bg-white p-6 hover:shadow-2xl flex justify-between items-center border-2 border-blue-500"
+                    className="h-32 md:h-auto rounded-xl shadow-lg bg-white p-6 hover:shadow-2xl flex justify-between items-center border-2 border-blue-500"
                 >
-                    <div className="left">
-                        <h4 className="font-bold text-2xl">Built-in chatbox.</h4>
-                        <p>Text chat with room members.</p>
+                    <div className="left w-2/3 md:w-auto">
+                        <h4 className="font-bold text-lg md:text-2xl">Built-in chatbox.</h4>
+                        <p className="text-sm md:text-base mt-1">Text chat with room members.</p>
                     </div>
-                    <img className="h-[20vh] transition hover:scale-130" src="/Chatbox.png" alt="pic" />
+                    <img className="ml-4 h-full md:w-1/4 md:h-[20vh] transition hover:scale-130" src="/Chatbox.png" alt="pic" />
                 </Tilt>
 
                 <Tilt
@@ -79,13 +80,13 @@ export default function Landing() {
                     tiltMaxAngleX={15}
                     tiltMaxAngleY={15}
                     transitionSpeed={250}
-                    className="rounded-xl shadow-lg bg-white p-6 hover:shadow-2xl flex justify-between items-center border-2 border-red-500"
+                    className="h-32 md:h-auto rounded-xl shadow-lg bg-white p-6 hover:shadow-2xl flex justify-between items-center border-2 border-red-500"
                 >
-                    <div className="left">
-                        <h4 className="font-bold text-2xl">Real-time collaboration.</h4>
-                        <p>Code together, see each other's cursors live.</p>
+                    <div className="left w-2/3 md:w-auto">
+                        <h4 className="font-bold text-lg md:text-2xl">Real-time collaboration.</h4>
+                        <p className="text-sm md:text-base mt-1">Code together, see each other's cursors live.</p>
                     </div>
-                    <img className="h-[20vh] transition hover:scale-130" src="/Cursors.png" alt="pic" />
+                    <img className="ml-4 h-full md:w-1/3 md:h-[20vh] transition hover:scale-130" src="/Cursors.png" alt="pic" />
                 </Tilt>
 
                 <Tilt
@@ -95,13 +96,13 @@ export default function Landing() {
                     tiltMaxAngleX={15}
                     tiltMaxAngleY={15}
                     transitionSpeed={250}
-                    className="rounded-xl shadow-lg bg-white p-6 hover:shadow-2xl flex justify-between items-center border-2 border-blue-500"
+                    className="h-32 md:h-auto rounded-xl shadow-lg bg-white p-6 hover:shadow-2xl flex justify-between items-center border-2 border-blue-500"
                 >
-                    <div className="left">
-                        <h4 className="font-bold text-2xl">Multi-language support.</h4>
-                        <p>C++, Java, & Python - compile & run instantly.</p>
+                    <div className="left w-2/3 md:w-auto">
+                        <h4 className="font-bold text-lg md:text-2xl">Multi-language support.</h4>
+                        <p className="text-sm md:text-base mt-1">C++, Java, & Python - compile & run instantly.</p>
                     </div>
-                    <img className="h-[20vh] transition hover:scale-130" src="/Languages.png" alt="pic" />
+                    <img className="ml-4 md:w-auto h-full md:h-[20vh] transition hover:scale-130" src="/Languages.png" alt="pic" />
                 </Tilt>
 
                 <Tilt
@@ -111,24 +112,24 @@ export default function Landing() {
                     tiltMaxAngleX={15}
                     tiltMaxAngleY={15}
                     transitionSpeed={250}
-                    className="rounded-xl shadow-lg bg-white p-6 hover:shadow-2xl flex justify-between items-center border-2 border-red-500"
+                    className="h-32 md:h-auto rounded-xl shadow-lg bg-white p-6 hover:shadow-2xl flex justify-between items-center border-2 border-red-500"
                 >
-                    <div className="left">
-                        <h4 className="font-bold text-2xl">Secure room access.</h4>
-                        <p>Login protected and JWT-authenticated rooms.</p>
+                    <div className="left w-2/3 md:w-auto">
+                        <h4 className="font-bold text-lg md:text-2xl">Secure room access.</h4>
+                        <p className="text-sm md:text-base mt-1">Login protected and JWT-authenticated rooms.</p>
                     </div>
-                    <img className="h-[20vh] transition hover:scale-130" src="/Login.png" alt="pic" />
+                    <img className="ml-4 md:w-auto h-full md:h-[20vh] transition hover:scale-130" src="/Login.png" alt="pic" />
                 </Tilt>
             </div>
 
-            <div className="buttons h-[25vh] flex justify-center gap-[3vw] items-center">
-                <button onClick={() => handleClick("create")} className="w-[15vw] h-[10vh] rounded-xl cursor-pointer text-lg transition hover:scale-110 font-bold text-white bg-blue-500 flex justify-center gap-2 items-center">
+            <div className="buttons h-1/4 md:h-[25vh] flex justify-center gap-[3vw] items-center">
+                <button onClick={() => handleClick("create")} className="w-1/3 md:w-[15vw] h-1/4 md:h-[10vh] rounded-xl cursor-pointer text-sm md:text-lg transition hover:scale-110 font-bold text-white bg-blue-500 flex justify-evenly md:justify-center md:gap-2 items-center">
                     <IoCreateOutline className="text-2xl" />
-                    Create a Room
+                    <p className="w-2/3">Create a Room</p>
                 </button>
-                <button onClick={() => handleClick("join")} className="w-[15vw] h-[10vh] rounded-xl cursor-pointer text-lg transition hover:scale-110 font-bold text-white bg-red-500 flex justify-center gap-2 items-center">
+                <button onClick={() => handleClick("join")} className="w-1/3 md:w-[15vw] h-1/4 md:h-[10vh] rounded-xl cursor-pointer text-sm md:text-lg transition hover:scale-110 font-bold text-white bg-red-500 flex justify-evenly md:justify-center md:gap-2 items-center">
                     <IoEnterOutline className="text-2xl" />
-                    Join a Room
+                    <p className="w-2/3">Join a Room</p>
                 </button>
             </div>
         </section>
