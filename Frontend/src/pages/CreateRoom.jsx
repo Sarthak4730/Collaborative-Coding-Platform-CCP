@@ -47,8 +47,8 @@ export default function CreateRoom() {
             <h4 className="text-2xl">Room Code: <span className="font-bold text-2xl">{roomCode}</span></h4>
 
             <div className="btns flex justify-center gap-5 items-center">
-                <button onClick={handleCopy} className="w-[15vw] h-[10vh] rounded-xl cursor-pointer text-lg hover:scale-105 font-bold border-2 border-blue-500 ">Copy Room Code</button>
-                <button onClick={handleEnterRoom} className="w-[15vw] h-[10vh] rounded-xl cursor-pointer text-lg hover:scale-105 font-bold text-white bg-blue-500 ">Enter Room</button>
+                <button onClick={handleCopy} className="w-36 h-12 md:w-[15vw] md:h-[10vh] rounded-xl cursor-pointer text-lg hover:scale-105 font-bold border-2 border-blue-500 ">Copy Code</button>
+                <button onClick={handleEnterRoom} className="w-36 h-12 md:w-[15vw] md:h-[10vh] rounded-xl cursor-pointer text-lg hover:scale-105 font-bold text-white bg-blue-500 ">Enter Room</button>
             </div>
         </div>
     </>

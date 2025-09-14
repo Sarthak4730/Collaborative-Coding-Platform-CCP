@@ -30,9 +30,9 @@ export default function JoinRoom() {
         <div className="container flex flex-col items-center mt-[10vh] h-[50vh] justify-evenly">
             <h1 className="text-4xl font-bold">Enter Room Code</h1>       
             
-            <input className="border-2 border-blue-500 bg-white rounded-2xl pl-4 h-10 w-[20vw]" type="text" name="roomcode" placeholder="Room Code" onChange={(e) => setRoomCode(e.target.value)} required/>
+            <input className="border-2 border-blue-500 bg-white rounded-2xl pl-4 w-36 h-12 md:w-[15vw] md:h-[10vh]" type="text" name="roomcode" placeholder="Room Code" onChange={(e) => setRoomCode(e.target.value)} required/>
 
-            <button onClick={handleEnterRoom} className="w-[15vw] h-[10vh] rounded-xl cursor-pointer text-lg hover:scale-105 font-bold text-white bg-blue-500 ">Join Room</button>
+            <button onClick={handleEnterRoom} className="w-36 h-12 md:w-[15vw] md:h-[10vh] rounded-xl cursor-pointer text-lg hover:scale-105 font-bold text-white bg-blue-500 ">Join Room</button>
         </div>
     </>
 }
