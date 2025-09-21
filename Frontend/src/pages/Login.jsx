@@ -6,12 +6,15 @@ import { LuEye } from "react-icons/lu";
 import { LuEyeClosed } from "react-icons/lu";
 import Swal from 'sweetalert2';
 
+import Loader from "../components/Loader";
+
 export default function Login() {
     const [formData, setFormData] = useState( {
         email: "",
         password: ""
     } );
     const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
     const [isHidden, setIsHidden] = useState(true);
     const navigate = useNavigate();
     const location = useLocation();
@@ -21,6 +24,7 @@ export default function Login() {
     }
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);
         try {
             // const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/auth/login`, formData);
             const res = await axios.post(`http://localhost:5000/api/auth/login`, formData);
@@ -38,6 +42,8 @@ export default function Login() {
             navigate( location.state?.from || '/' );
         } catch (err) {
             setError(err.response?.data?.message || "Login Failed");
+        } finally {
+            setLoading(false);
         }
     }
     
@@ -52,6 +58,7 @@ export default function Login() {
             </div>
 
             {error && <p className="text-lg font-bold text-red-600">*{error}*</p>}
+            {loading && <Loader text="Logging in"/>}
 
             <button type="submit" className="w-1/3 md:w-[12.5vw] md:h-[7.5vh] rounded-xl cursor-pointer py-1 text-lg hover:scale-105 font-bold text-white bg-blue-500 ">Login</button>
         

@@ -22,7 +22,7 @@ const Navbar = () => {
         navigate('/');
     }
 
-    return <nav className="navbar h-20 md:h-[15vh] bg-gradient-to-r from-[#3b82f6] to-[#ef4444] text-white font-bold flex justify-between px-[2vw] items-center">
+    return <nav className="navbar w-full h-20 md:h-[15vh] bg-gradient-to-r from-[#3b82f6] to-[#ef4444] text-white font-bold flex justify-between px-[2vw] items-center">
         <div className="left flex w-1/2 items-center gap-2">
             <button className="w-1/6 h-1/6 md:w-[3vw] md:h-[3vw]" onClick={ () => navigate('/') }>
                 <img src="/logo.svg" alt="logo" className="cursor-pointer hover:scale-110 transition border-2 border-white rounded-lg"/>
@@ -30,14 +30,14 @@ const Navbar = () => {
             <h1 className="w-1/2 text-xs md:text-2xl">Collaborative Coding Platform</h1>
         </div>
 
-        <div className="right flex justify-end md:justify-end w-1/2 h-full items-center md:gap-4">
+        <div className="right flex justify-end w-1/2 h-full items-center gap-4">
             <div className="two-btns md:flex gap-3">
-                <div className="hover:scale-110 transition flex w-1/4 md:w-[7vw] justify-evenly">
-                    <FaGithub className="text-2xl"/>
+                <div className="hover:scale-110 transition flex items-center w-18 md:w-[7vw] justify-between md:justify-evenly">
+                    <FaGithub className="text-xl md:text-2xl"/>
                     <h3><a className="hover:text-blue-300 text-xs md:text-base underline md:no-underline" href="https://github.com/Sarthak4730/Collaborative-Coding-Platform-CCP" target="_blank">Github</a></h3>
                 </div>
-                <div className="hover:scale-110 transition flex w-1/4 md:w-[7vw] justify-evenly">
-                    <IoIosMail className="text-2xl"/>
+                <div className="hover:scale-110 transition flex items-center w-18 md:w-[7vw] justify-between md:justify-evenly">
+                    <IoIosMail className="text-xl md:text-2xl"/>
                     <a className="hover:text-blue-300 text-xs md:text-base underline md:no-underline" href="mailto:sarthak.kharade.dev@gmail.com">Contact</a>
                 </div>
             </div>

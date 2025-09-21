@@ -1,10 +1,12 @@
 import { useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 import { LuEye } from "react-icons/lu";
 import { LuEyeClosed } from "react-icons/lu";
 import Swal from 'sweetalert2';
+
+import Loader from "../components/Loader";
 
 export default function Register() {
     const [formData, setFormData] = useState( {
@@ -13,14 +15,17 @@ export default function Register() {
         password: ""
     } );
     const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
     const [isHidden, setIsHidden] = useState(true);
     const navigate = useNavigate();
+    const location = useLocation();
 
     const handleChange = (e) => {
         setFormData( { ...formData, [e.target.name]: e.target.value } );
     }
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);
         try {
             // const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/auth/register`, formData);
             const res = await axios.post(`http://localhost:5000/api/auth/register`, formData);
@@ -34,9 +39,11 @@ export default function Register() {
                 timer: 2000,
                 timerProgressBar: true
             } );
-            navigate('/login');
+            navigate( location.state?.from || '/' );
         } catch (err) {
             setError(err.response?.data?.message || "Registration Failed");
+        } finally {
+            setLoading(false);
         }
     }
     
@@ -58,6 +65,7 @@ export default function Register() {
             </div>
 
             {error && <p className="text-lg font-bold text-red-600">*{error}*</p>}
+            {loading && <Loader text="Registering you"/>}
 
             <button type="submit" className="w-1/3 md:w-[12.5vw] md:h-[7.5vh] rounded-xl cursor-pointer py-1 text-lg hover:scale-105 font-bold text-white bg-blue-500 ">Register</button>
         

@@ -18,8 +18,7 @@ export default function Landing() {
     }
 
     return <div className="h-screen overflow-y-scroll snap-y snap-mandatory">
-    {/* return <div className="h-screen"> */}
-        <section className="hero h-screen snap-start bg-gradient-to-r from-[#3b82f6] to-[#ef4444] flex flex-col md:flex-row justify-evenly items-center gap-3">
+        <section className="hero relative h-screen snap-start bg-gradient-to-r from-[#3b82f6] to-[#ef4444] flex flex-col md:flex-row justify-evenly items-center gap-3">
             <div className="left/top text-center md:text-start">
                 <h1 className="text-5xl font-bold text-white">Collaborative Coding Platform</h1>
                 <div className="text-xl font-semibold mt-3">
@@ -49,14 +48,14 @@ export default function Landing() {
                 />
             </div>
             <div className="absolute bottom-2 flex justify-center mt-10 animate-bounce text-white text-2xl">
-                <FaAngleDoubleDown style={ { height: "10vh", width: "3vw" } } />
+                <FaAngleDoubleDown style={ { height: "8vh", width: "8vw" } } />
             </div>
         </section>
 
         <section className="navbar-and-features-and-buttons h-screen snap-start">
             <Navbar />
 
-            <div className="features flex flex-col md:h-[60vh] md:grid md:grid-cols-2 md:grid-rows-2 px-[3vw] pt-8 md:pt-[2vw] gap-8 md:gap-[3vw]">
+            <div className="features flex flex-col md:h-[60vh] md:grid md:grid-cols-2 md:grid-rows-2 px-[3vw] py-8 md:pt-[2vw] gap-8 md:gap-[3vw]">
                 <Tilt
                     glareEnable={true}
                     glareMaxOpacity={0.2}
@@ -122,12 +121,12 @@ export default function Landing() {
                 </Tilt>
             </div>
 
-            <div className="buttons h-1/4 md:h-[25vh] flex justify-center gap-[3vw] items-center">
-                <button onClick={() => handleClick("create")} className="w-1/3 md:w-[15vw] h-1/4 md:h-[10vh] rounded-xl cursor-pointer text-sm md:text-lg transition hover:scale-110 font-bold text-white bg-blue-500 flex justify-evenly md:justify-center md:gap-2 items-center">
+            <div className="buttons h-1/6 md:h-[25vh] flex justify-center gap-[3vw] items-center">
+                <button onClick={() => handleClick("create")} className="w-1/3 md:w-[15vw] h-1/3 md:h-[10vh] rounded-xl cursor-pointer text-sm md:text-lg transition hover:scale-110 font-bold text-white bg-blue-500 flex justify-evenly md:justify-center md:gap-2 items-center">
                     <IoCreateOutline className="text-2xl" />
                     <p className="w-2/3">Create a Room</p>
                 </button>
-                <button onClick={() => handleClick("join")} className="w-1/3 md:w-[15vw] h-1/4 md:h-[10vh] rounded-xl cursor-pointer text-sm md:text-lg transition hover:scale-110 font-bold text-white bg-red-500 flex justify-evenly md:justify-center md:gap-2 items-center">
+                <button onClick={() => handleClick("join")} className="w-1/3 md:w-[15vw] h-1/3 md:h-[10vh] rounded-xl cursor-pointer text-sm md:text-lg transition hover:scale-110 font-bold text-white bg-red-500 flex justify-evenly md:justify-center md:gap-2 items-center">
                     <IoEnterOutline className="text-2xl" />
                     <p className="w-2/3">Join a Room</p>
                 </button>
