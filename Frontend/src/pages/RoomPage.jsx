@@ -262,7 +262,7 @@ export default function RoomPage() {
 
         <div className="h-screen overflow-y-scroll md:overflow-visible snap-y snap-mandatory md:snap-none flex flex-col md:flex-row items-center md:justify-evenly md:h-[75vh] md:mt-[20vh]">
             {/* CODE EDITOR */}
-            <section className="h-screen snap-start md:h-auto md:snap-none">
+            <section className="flex flex-col md:flex-row items-center md:justify-evenly h-screen snap-start md:h-auto md:snap-none">
                 <h1 className="block md:hidden text-xl mt-25 underline underline-offset-5 decoration-red-500 decoration-4">Scroll Down for Room Chat</h1>
                 <div className="code-editor mt-5 md:mt-60 mb-60 h-full w-5/6 md:w-[60vw] border-2 rounded-xl flex flex-col">
                     {/* Top Row */}
@@ -351,7 +351,7 @@ export default function RoomPage() {
             { isCodeRunning && <Loader text="Running Code"/> }
             
             {/* ROOM CHATBOX */}
-            <section className="h-screen snap-start md:h-auto md:snap-none">
+            <section className="flex flex-col md:flex-row items-center md:justify-evenly h-screen snap-start md:h-auto md:snap-none">
                 <h1 className="block md:hidden text-xl mt-25 underline underline-offset-5 decoration-blue-500 decoration-4">Scroll Up for Code Editor</h1>
                 <div className="room-chat mt-5 mb-40 md:mb-0 h-full w-5/6 md:w-[30vw] border-2 rounded-xl flex flex-col justify-evenly items-center">
                     <div className="top-row h-[7.5vh] w-full px-3 flex justify-between items-center">
