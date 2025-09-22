@@ -260,142 +260,147 @@ export default function RoomPage() {
             <Navbar/>
         </div>
 
-        <div className="flex flex-col md:flex-row items-center md:justify-evenly md:h-[75vh] md:mt-[20vh]">
+        <div className="h-screen overflow-y-scroll md:overflow-visible snap-y snap-mandatory md:snap-none flex flex-col md:flex-row items-center md:justify-evenly md:h-[75vh] md:mt-[20vh]">
             {/* CODE EDITOR */}
-            <h1 className="block md:hidden text-xl mt-25 underline underline-offset-5 decoration-red-500 decoration-4">Scroll Down for Room Chat</h1>
-            <div className="code-editor mt-30 md:mt-60 mb-60 h-full w-5/6 md:w-[60vw] border-2 rounded-xl flex flex-col">
-                {/* Top Row */}
-                <div className="top w-full h-[14vh] flex justify-between px-5 items-center">
-                    <div className="left w-1/2 h-2/3 md:h-full md:w-[20vw] flex md:justify-between md:items-center">
-                        <h1 className="text-xl md:text-2xl font-bold underline underline-offset-5 decoration-blue-500 decoration-4">Code Editor</h1>
-                        <div className="room-code-copy text-xs md:text-base flex w-3/4 md:w-[7.5vw] h-[5.5vh] justify-between items-center border-blue-500 border-2 rounded-lg px-2 font-bold">
-                            {roomId}
-                            <MdContentCopy className="cursor-pointer transition hover:scale-105" onClick={handleCopy}/>
+            <section className="h-screen snap-start md:h-auto md:snap-none md:hidden">
+                <h1 className="block md:hidden text-xl mt-25 underline underline-offset-5 decoration-red-500 decoration-4">Scroll Down for Room Chat</h1>
+                <div className="code-editor mt-5 md:mt-60 mb-60 h-full w-5/6 md:w-[60vw] border-2 rounded-xl flex flex-col">
+                    {/* Top Row */}
+                    <div className="top w-full h-[14vh] flex justify-between px-5 items-center">
+                        <div className="left w-1/2 h-2/3 md:h-full md:w-[20vw] flex md:justify-between md:items-center">
+                            <h1 className="text-xl md:text-2xl font-bold underline underline-offset-5 decoration-blue-500 decoration-4">Code Editor</h1>
+                            <div className="room-code-copy text-xs md:text-base flex w-3/4 md:w-[7.5vw] h-[5.5vh] justify-between items-center border-blue-500 border-2 rounded-lg px-2 font-bold">
+                                {roomId}
+                                <MdContentCopy className="cursor-pointer transition hover:scale-105" onClick={handleCopy}/>
+                            </div>
+                        </div>
+                        
+                        <div className="right w-1/2 h-2/3 md:w-[30vw] md:h-full flex flex-col md:flex-row justify-between items-end md:items-center">
+                            <div className="dropdown-hover-leader-alert relative group h-10 md:h-10.25 w-3/4 md:w-[8vw] border-2 border-blue-500 rounded-md">
+                                { !isLeader && <p className="text-xs p-2 rounded-md bg-blue-500 text-white absolute w-[12vw] left-full -top-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">Only the Room Leader '👑'<br/>can change language</p> }
+                                
+                                <Select
+                                    isDisabled={!isLeader}
+                                    isSearchable={false}
+                                    options={languageOptions}
+                                    value={language}
+                                    onChange={ (lang) => {
+                                        setLanguage(lang);
+                                        setCode(defaultCode[lang.value]);
+                                        socketRef.current.emit("language-change", { roomId, lang: lang.value } );
+                                    } }
+                                />
+                            </div>
+                            <button className="w-3/4 md:w-[8vw] h-2/6 md:h-[5.5vh] cursor-pointer text-sm md:text-lg hover:scale-105 font-bold text-white bg-blue-500 flex justify-evenly items-center rounded-md" onClick={runCode} > 
+                                <FaPlay className="text-white" />
+                                Run Code 
+                            </button>
                         </div>
                     </div>
-                    
-                    <div className="right w-1/2 h-2/3 md:w-[30vw] md:h-full flex flex-col md:flex-row justify-between items-end md:items-center">
-                        <div className="dropdown-hover-leader-alert relative group h-10 md:h-10.25 w-3/4 md:w-[8vw] border-2 border-blue-500 rounded-md">
-                            { !isLeader && <p className="text-xs p-2 rounded-md bg-blue-500 text-white absolute w-[12vw] left-full -top-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">Only the Room Leader '👑'<br/>can change language</p> }
-                            
-                            <Select
-                                isDisabled={!isLeader}
-                                isSearchable={false}
-                                options={languageOptions}
-                                value={language}
-                                onChange={ (lang) => {
-                                    setLanguage(lang);
-                                    setCode(defaultCode[lang.value]);
-                                    socketRef.current.emit("language-change", { roomId, lang: lang.value } );
+
+                    {/* Center Code Editor */}
+                    <Editor
+                        height="35vh"
+                        theme="vs-dark"
+                        language={language.value}
+                        value={code}
+                        onChange={ (text) => {
+                            setCode(text);
+                            socketRef.current.emit("code-change", { roomId, code: text } );
+                        } }
+                        options={ {
+                            minimap: { enabled: false },
+                            // wordWrap: "on"
+                        } }
+                        onMount={ (editor, monaco) => {
+                            editorRef.current = editor;
+
+                            editor.onDidChangeCursorPosition( (e) => {
+                                const position = e.position;
+                                socketRef.current.emit("cursor-update", {
+                                    roomId, socketId: socketRef.current.id, username, position
+                                } );
+                            } );
+                        } }
+                    />
+
+                    {/* Bottom Row */}
+                    <div className="stdin-and-stdout-div h-52 md:h-[18vh] flex">
+                        <div className="INput-div w-1/3 md:w-[30vw] h-full">
+                            <h3 className="py-2 pl-5 text-xl font-bold underline underline-offset-3 decoration-blue-500 decoration-3">Input:</h3>
+                            <textarea
+                                value={input}
+                                onChange={ (e) => {
+                                    setInput(e.target.value);
+                                    socketRef.current.emit("input-change", { roomId, input: e.target.value } );
                                 } }
+                                placeholder="Enter your custom input here..."
+                                className="rounded-lg text-xs md:text-base ml-3 p-2 w-full md:w-[29vw] h-3/4 md:h-full mx-auto overflow-y-auto bg-neutral-800 text-white"
                             />
                         </div>
-                        <button className="w-3/4 md:w-[8vw] h-2/6 md:h-[5.5vh] cursor-pointer text-sm md:text-lg hover:scale-105 font-bold text-white bg-blue-500 flex justify-evenly items-center rounded-md" onClick={runCode} > 
-                            <FaPlay className="text-white" />
-                            Run Code 
-                        </button>
-                    </div>
-                </div>
-
-                {/* Center Code Editor */}
-                <Editor
-                    height="35vh"
-                    theme="vs-dark"
-                    language={language.value}
-                    value={code}
-                    onChange={ (text) => {
-                        setCode(text);
-                        socketRef.current.emit("code-change", { roomId, code: text } );
-                    } }
-                    options={ {
-                        minimap: { enabled: false },
-                        // wordWrap: "on"
-                    } }
-                    onMount={ (editor, monaco) => {
-                        editorRef.current = editor;
-
-                        editor.onDidChangeCursorPosition( (e) => {
-                            const position = e.position;
-                            socketRef.current.emit("cursor-update", {
-                                roomId, socketId: socketRef.current.id, username, position
-                            } );
-                        } );
-                    } }
-                />
-
-                {/* Bottom Row */}
-                <div className="stdin-and-stdout-div h-52 md:h-[18vh] flex">
-                    <div className="INput-div w-1/3 md:w-[30vw] h-full">
-                        <h3 className="py-2 pl-5 text-xl font-bold underline underline-offset-3 decoration-blue-500 decoration-3">Input:</h3>
-                        <textarea
-                            value={input}
-                            onChange={ (e) => {
-                                setInput(e.target.value);
-                                socketRef.current.emit("input-change", { roomId, input: e.target.value } );
-                            } }
-                            placeholder="Enter your custom input here..."
-                            className="rounded-lg text-xs md:text-base ml-3 p-2 w-full md:w-[29vw] h-3/4 md:h-full mx-auto overflow-y-auto bg-neutral-800 text-white"
-                        />
-                    </div>
-                    <div className="OUTput-div w-2/3 md:w-[30vw] h-full">
-                        <h3 className="py-2 pl-5 md:pl-3 ml-4 md:ml-0 text-xl font-bold underline underline-offset-3 decoration-blue-500 decoration-3">Output:</h3>
-                        <div className="rounded-lg p-2 ml-7 md:ml-1 w-5/6 md:w-[29vw] h-3/4 md:h-full mx-auto overflow-y-auto bg-neutral-800 text-white">
-                            <pre className="whitespace-pre-wrap break-words">{output}</pre>
+                        <div className="OUTput-div w-2/3 md:w-[30vw] h-full">
+                            <h3 className="py-2 pl-5 md:pl-3 ml-4 md:ml-0 text-xl font-bold underline underline-offset-3 decoration-blue-500 decoration-3">Output:</h3>
+                            <div className="rounded-lg p-2 ml-7 md:ml-1 w-5/6 md:w-[29vw] h-3/4 md:h-full mx-auto overflow-y-auto bg-neutral-800 text-white">
+                                <pre className="whitespace-pre-wrap break-words">{output}</pre>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </section>
+
             { isCodeRunning && <Loader text="Running Code"/> }
             
             {/* ROOM CHATBOX */}
-            <h1 className="block md:hidden text-xl mt-25 underline underline-offset-5 decoration-blue-500 decoration-4">Scroll Up for Code Editor</h1>
-            <div className="room-chat mb-40 md:mb-0 h-full w-5/6 md:w-[30vw] border-2 rounded-xl flex flex-col justify-evenly items-center">
-                <div className="top-row h-[7.5vh] w-full px-3 flex justify-between items-center">
-                    <h1 className="text-xl md:text-2xl h-5/6 w-1/4 md:pt-2 md:w-1/3 font-bold underline underline-offset-5 decoration-red-500 decoration-4">Room Chat</h1>
-                    
-                    <div className="dropdown-div relative">
-                        <button className="users-count flex w-36 md:w-[10vw] h-10 md:h-[5vh] justify-between items-center border-red-500 border-2 rounded-lg px-2 font-bold cursor-pointer hover:scale-105" onClick={ () => setMembersDropdown( (prev) => !prev ) }>
-                            { membersDropdown ? <IoIosArrowDropup className="text-2xl"/> : <IoIosArrowDropdown className="text-2xl"/> }
-                            {roomUsers.length} Members
-                        </button>
-                        {
-                            membersDropdown && <ol className="members-ul border-red-500 border-2 bg-white absolute w-36 md:w-[10vw] rounded-lg text-sm pl-2">
-                                { 
-                                    roomUsers.map( (u,idx) => {
-                                        return <li className="my-2" key={idx}><b>{idx+1}.</b> {u.username}{u.username === leaderName && '👑'}</li>
-                                    } )
-                                }
-                            </ol>
-                        }
+            <section className="h-screen snap-start md:h-auto md:snap-none md:hidden">
+                <h1 className="block md:hidden text-xl mt-25 underline underline-offset-5 decoration-blue-500 decoration-4">Scroll Up for Code Editor</h1>
+                <div className="room-chat mt-5 mb-40 md:mb-0 h-full w-5/6 md:w-[30vw] border-2 rounded-xl flex flex-col justify-evenly items-center">
+                    <div className="top-row h-[7.5vh] w-full px-3 flex justify-between items-center">
+                        <h1 className="text-xl md:text-2xl h-5/6 w-1/4 md:pt-2 md:w-1/3 font-bold underline underline-offset-5 decoration-red-500 decoration-4">Room Chat</h1>
+                        
+                        <div className="dropdown-div relative">
+                            <button className="users-count flex w-36 md:w-[10vw] h-10 md:h-[5vh] justify-between items-center border-red-500 border-2 rounded-lg px-2 font-bold cursor-pointer hover:scale-105" onClick={ () => setMembersDropdown( (prev) => !prev ) }>
+                                { membersDropdown ? <IoIosArrowDropup className="text-2xl"/> : <IoIosArrowDropdown className="text-2xl"/> }
+                                {roomUsers.length} Members
+                            </button>
+                            {
+                                membersDropdown && <ol className="members-ul border-red-500 border-2 bg-white absolute w-36 md:w-[10vw] rounded-lg text-sm pl-2">
+                                    { 
+                                        roomUsers.map( (u,idx) => {
+                                            return <li className="my-2" key={idx}><b>{idx+1}.</b> {u.username}{u.username === leaderName && '👑'}</li>
+                                        } )
+                                    }
+                                </ol>
+                            }
+                        </div>
+                        
+                        <Link to='/'>
+                            <button className="w-16 md:w-[5vw] h-[6vh] rounded-xl cursor-pointer hover:scale-105 font-bold text-white bg-red-500 flex flex-col items-center justify-evenly">
+                                <FaHome className="text-2xl" />
+                                <p className="text-sm">Home</p>
+                            </button>
+                        </Link>
                     </div>
-                    
-                    <Link to='/'>
-                        <button className="w-16 md:w-[5vw] h-[6vh] rounded-xl cursor-pointer hover:scale-105 font-bold text-white bg-red-500 flex flex-col items-center justify-evenly">
-                            <FaHome className="text-2xl" />
-                            <p className="text-sm">Home</p>
-                        </button>
-                    </Link>
-                </div>
 
-                <ul className="chats mt-2 h-[50vh] w-full overflow-y-auto break-all whitespace-normal">
-                    {
-                        chatLog.map( (msg, idx) => (
-                            <li className="flex justify-between px-3 my-3 gap-2" key={idx}>
-                                <span className="inline-block w-1/3 md:w-[10vw] font-bold">
-                                    {msg.sender === leaderName && '👑'}{msg.sender}:
-                                </span>
-                                <p className="w-2/3 md:w-[16vw]">{msg.message}</p>
-                            </li>
-                        ) )
-                    }
-                    <div ref={lastMsg} className="div-for-lastMsg" />
-                </ul>
+                    <ul className="chats mt-2 h-[50vh] w-full overflow-y-auto break-all whitespace-normal">
+                        {
+                            chatLog.map( (msg, idx) => (
+                                <li className="flex justify-between px-3 my-3 gap-2" key={idx}>
+                                    <span className="inline-block w-1/3 md:w-[10vw] font-bold">
+                                        {msg.sender === leaderName && '👑'}{msg.sender}:
+                                    </span>
+                                    <p className="w-2/3 md:w-[16vw]">{msg.message}</p>
+                                </li>
+                            ) )
+                        }
+                        <div ref={lastMsg} className="div-for-lastMsg" />
+                    </ul>
 
-                <div className="input-msg-div h-[7.5vh] w-full px-3 flex justify-between items-center">
-                    <input className="border-2 border-red-500 bg-white rounded-2xl px-4 h-10 w-60 md:w-[22vw]" type="text" value={message} placeholder="Type your message" onChange={ (e) => setMessage(e.target.value) } onKeyDown={ (e) => e.key === "Enter" && sendMessage() } required/>
-                    <button onClick={sendMessage} className="w-1/4 md:w-[5.5vw] h-2/3 md:h-[5.5vh] rounded-3xl cursor-pointer text-lg hover:scale-105 font-bold text-white bg-red-500"> Send </button>
+                    <div className="input-msg-div h-[7.5vh] w-full px-3 flex justify-between items-center">
+                        <input className="border-2 border-red-500 bg-white rounded-2xl px-4 h-10 w-60 md:w-[22vw]" type="text" value={message} placeholder="Type your message" onChange={ (e) => setMessage(e.target.value) } onKeyDown={ (e) => e.key === "Enter" && sendMessage() } required/>
+                        <button onClick={sendMessage} className="w-1/4 md:w-[5.5vw] h-2/3 md:h-[5.5vh] rounded-3xl cursor-pointer text-lg hover:scale-105 font-bold text-white bg-red-500"> Send </button>
+                    </div>
                 </div>
-            </div>
+            </section>
         </div>
     </>
 }
