@@ -262,8 +262,8 @@ export default function RoomPage() {
 
         <div className="h-screen overflow-y-scroll md:overflow-visible snap-y snap-mandatory md:snap-none flex flex-col md:flex-row items-center md:justify-evenly md:h-[75vh] md:mt-[20vh]">
             {/* CODE EDITOR */}
-            <section className="h-screen snap-start md:h-auto md:snap-none md:hidden">
-                <h1 className="block md:hidden text-xl mt-25 underline underline-offset-5 decoration-red-500 decoration-4">Scroll Down for Room Chat</h1>
+            {/* <section className="h-screen snap-start md:h-auto md:snap-none"> */}
+                <h1 className="h-screen snap-start md:h-auto md:snap-none block md:hidden text-xl mt-25 underline underline-offset-5 decoration-red-500 decoration-4">Scroll Down for Room Chat</h1>
                 <div className="code-editor mt-5 md:mt-60 mb-60 h-full w-5/6 md:w-[60vw] border-2 rounded-xl flex flex-col">
                     {/* Top Row */}
                     <div className="top w-full h-[14vh] flex justify-between px-5 items-center">
@@ -346,13 +346,13 @@ export default function RoomPage() {
                         </div>
                     </div>
                 </div>
-            </section>
+            {/* </section> */}
 
             { isCodeRunning && <Loader text="Running Code"/> }
             
             {/* ROOM CHATBOX */}
-            <section className="h-screen snap-start md:h-auto md:snap-none md:hidden">
-                <h1 className="block md:hidden text-xl mt-25 underline underline-offset-5 decoration-blue-500 decoration-4">Scroll Up for Code Editor</h1>
+            {/* <section className="h-screen snap-start md:h-auto md:snap-none"> */}
+                <h1 className="h-screen snap-start md:h-auto md:snap-none block md:hidden text-xl mt-25 underline underline-offset-5 decoration-blue-500 decoration-4">Scroll Up for Code Editor</h1>
                 <div className="room-chat mt-5 mb-40 md:mb-0 h-full w-5/6 md:w-[30vw] border-2 rounded-xl flex flex-col justify-evenly items-center">
                     <div className="top-row h-[7.5vh] w-full px-3 flex justify-between items-center">
                         <h1 className="text-xl md:text-2xl h-5/6 w-1/4 md:pt-2 md:w-1/3 font-bold underline underline-offset-5 decoration-red-500 decoration-4">Room Chat</h1>
@@ -400,7 +400,7 @@ export default function RoomPage() {
                         <button onClick={sendMessage} className="w-1/4 md:w-[5.5vw] h-2/3 md:h-[5.5vh] rounded-3xl cursor-pointer text-lg hover:scale-105 font-bold text-white bg-red-500"> Send </button>
                     </div>
                 </div>
-            </section>
+            {/* </section> */}
         </div>
     </>
 }
