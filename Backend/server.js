@@ -10,8 +10,8 @@ dotenv.config();
 connectDB();
 
 const corsOptions = {
-    // origin: "https://ccp-by-sk.vercel.app",
-    origin: "http://localhost:3000",
+    origin: "https://ccp-by-sk.vercel.app",
+    // origin: "http://localhost:3000",
     methods: ["GET", "POST"],
     credentials: true
 }
