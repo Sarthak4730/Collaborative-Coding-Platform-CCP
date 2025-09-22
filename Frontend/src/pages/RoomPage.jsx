@@ -262,8 +262,8 @@ export default function RoomPage() {
 
         <div className="flex flex-col md:flex-row items-center md:justify-evenly md:h-[75vh] md:mt-[20vh]">
             {/* CODE EDITOR */}
-            <h1 className="block md:hidden text-xl absolute top-20">Scroll Down for Room Chat</h1>
-            <div className="code-editor mt-40 md:mt-60 mb-60 h-full w-5/6 md:w-[60vw] border-2 rounded-xl flex flex-col">
+            <h1 className="block md:hidden text-xl mt-25 underline underline-offset-5 decoration-red-500 decoration-4">Scroll Down for Room Chat</h1>
+            <div className="code-editor mt-30 md:mt-60 mb-60 h-full w-5/6 md:w-[60vw] border-2 rounded-xl flex flex-col">
                 {/* Top Row */}
                 <div className="top w-full h-[14vh] flex justify-between px-5 items-center">
                     <div className="left w-1/2 h-2/3 md:h-full md:w-[20vw] flex md:justify-between md:items-center">
@@ -348,7 +348,7 @@ export default function RoomPage() {
             { isCodeRunning && <Loader text="Running Code"/> }
             
             {/* ROOM CHATBOX */}
-            <h1 className="block md:hidden text-xl absolute bottom-20">Scroll Up for Code Editor</h1>
+            <h1 className="block md:hidden text-xl mt-25 underline underline-offset-5 decoration-blue-500 decoration-4">Scroll Up for Code Editor</h1>
             <div className="room-chat mb-40 md:mb-0 h-full w-5/6 md:w-[30vw] border-2 rounded-xl flex flex-col justify-evenly items-center">
                 <div className="top-row h-[7.5vh] w-full px-3 flex justify-between items-center">
                     <h1 className="text-xl md:text-2xl h-5/6 w-1/4 md:pt-2 md:w-1/3 font-bold underline underline-offset-5 decoration-red-500 decoration-4">Room Chat</h1>
