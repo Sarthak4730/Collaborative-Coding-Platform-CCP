@@ -6,7 +6,7 @@ import { useState, useRef, useEffect } from "react";
 import { io } from "socket.io-client";
 import { Link, useParams } from "react-router-dom";
 
-import { FaPlay, FaHome, FaAngleDoubleDown } from "react-icons/fa";
+import { FaPlay, FaHome } from "react-icons/fa";
 import { IoIosArrowDropdown, IoIosArrowDropup } from "react-icons/io";
 import { MdContentCopy } from "react-icons/md";
 
@@ -262,6 +262,7 @@ export default function RoomPage() {
 
         <div className="flex flex-col md:flex-row items-center md:justify-evenly md:h-[75vh] md:mt-[20vh]">
             {/* CODE EDITOR */}
+            <h1 className="block md:hidden text-xl absolute top-20">Scroll Down for Room Chat</h1>
             <div className="code-editor mt-40 md:mt-60 mb-60 h-full w-5/6 md:w-[60vw] border-2 rounded-xl flex flex-col">
                 {/* Top Row */}
                 <div className="top w-full h-[14vh] flex justify-between px-5 items-center">
@@ -344,10 +345,10 @@ export default function RoomPage() {
                     </div>
                 </div>
             </div>
-            <FaAngleDoubleDown className="md:hidden animate-bounce" style={ { position: "absolute", bottom: "0", height: "8vh", width: "8vw" } } />
             { isCodeRunning && <Loader text="Running Code"/> }
             
             {/* ROOM CHATBOX */}
+            <h1 className="block md:hidden text-xl absolute bottom-20">Scroll Up for Code Editor</h1>
             <div className="room-chat mb-40 md:mb-0 h-full w-5/6 md:w-[30vw] border-2 rounded-xl flex flex-col justify-evenly items-center">
                 <div className="top-row h-[7.5vh] w-full px-3 flex justify-between items-center">
                     <h1 className="text-xl md:text-2xl h-5/6 w-1/4 md:pt-2 md:w-1/3 font-bold underline underline-offset-5 decoration-red-500 decoration-4">Room Chat</h1>

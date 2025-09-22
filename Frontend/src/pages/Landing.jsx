@@ -47,7 +47,7 @@ export default function Landing() {
                     autoplay
                 />
             </div>
-            <div className="absolute bottom-8 flex justify-center mt-10 animate-bounce text-white text-2xl">
+            <div className="absolute bottom-12 flex justify-center mt-10 animate-bounce text-white text-2xl">
                 <FaAngleDoubleDown style={ { height: "8vh", width: "8vw" } } />
             </div>
         </section>
