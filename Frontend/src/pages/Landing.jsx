@@ -55,12 +55,12 @@ export default function Landing() {
         <section className="navbar-and-features-and-buttons h-screen snap-start">
             <Navbar />
             
-            <div className="buttons h-1/10 md:h-[25vh] flex justify-center gap-[3vw] items-center">
-                <button onClick={() => handleClick("create")} className="w-1/3 md:w-[15vw] h-1/3 md:h-[10vh] rounded-xl cursor-pointer text-sm md:text-lg transition hover:scale-110 font-bold text-white bg-blue-500 flex justify-evenly md:justify-center md:gap-2 items-center">
+            <div className="buttons h-1/8 md:h-[25vh] flex justify-center gap-[3vw] items-center">
+                <button onClick={() => handleClick("create")} className="w-1/3 md:w-[15vw] h-1/3 md:h-[10vh] rounded-xl cursor-pointer text-xs md:text-lg transition hover:scale-110 font-bold text-white bg-blue-500 flex justify-evenly md:justify-center md:gap-2 items-center">
                     <IoCreateOutline className="text-2xl" />
                     <p className="w-2/3">Create a Room</p>
                 </button>
-                <button onClick={() => handleClick("join")} className="w-1/3 md:w-[15vw] h-1/3 md:h-[10vh] rounded-xl cursor-pointer text-sm md:text-lg transition hover:scale-110 font-bold text-white bg-red-500 flex justify-evenly md:justify-center md:gap-2 items-center">
+                <button onClick={() => handleClick("join")} className="w-1/3 md:w-[15vw] h-1/3 md:h-[10vh] rounded-xl cursor-pointer text-xs md:text-lg transition hover:scale-110 font-bold text-white bg-red-500 flex justify-evenly md:justify-center md:gap-2 items-center">
                     <IoEnterOutline className="text-2xl" />
                     <p className="w-2/3">Join a Room</p>
                 </button>
