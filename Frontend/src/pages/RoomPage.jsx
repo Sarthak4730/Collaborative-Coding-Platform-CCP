@@ -262,7 +262,7 @@ export default function RoomPage() {
 
         <div className="h-screen overflow-y-scroll md:overflow-hidden snap-y snap-mandatory flex flex-col md:flex-row items-center md:justify-evenly md:h-[75vh] md:mt-[20vh]">
             {/* CODE EDITOR */}
-            <section className="pt-30 md:pt-0 md:mt-60 mb-60 flex flex-col md:flex-row items-center md:justify-evenly h-screen snap-start md:h-11/12 md:snap-none">
+            <section className="pt-10 md:pt-0 md:mt-60 mb-60 flex flex-col md:flex-row items-center md:justify-evenly h-screen snap-start md:h-11/12 md:snap-none">
                 <div className="md:mt-5 code-editor h-full w-90 md:w-[60vw] border-2 rounded-xl flex flex-col">
                     {/* Top Row */}
                     <div className="top w-full h-[14vh] flex justify-between px-5 items-center">
@@ -354,7 +354,7 @@ export default function RoomPage() {
             { isCodeRunning && <Loader text="Running Code"/> }
             
             {/* ROOM CHATBOX */}
-            <section className="relative bottom-20 md:pt-2.5 md:mt-40 flex flex-col md:flex-row items-center md:justify-evenly h-screen snap-start md:h-11/12 md:snap-none">
+            <section className="relative bottom-5 md:pt-2.5 md:mt-40 flex flex-col md:flex-row items-center md:justify-evenly h-screen snap-start md:h-11/12 md:snap-none">
                 <div className="scroll-up-div flex md:hidden justify-center gap-4 w-full">
                     <h1 className="font-bold text-xl underline underline-offset-5 decoration-blue-500 decoration-4">Scroll Up for Code Editor</h1>
                     <FaAngleDoubleUp className="animate-bounce" style={ { height: "6vh", width: "6vw" } } />
