@@ -260,10 +260,10 @@ export default function RoomPage() {
             <Navbar/>
         </div>
 
-        <div className="mt-5 h-screen overflow-y-scroll md:overflow-hidden snap-y snap-mandatory flex flex-col md:flex-row items-center md:justify-evenly md:h-[75vh] md:mt-[20vh]">
+        <div className="h-screen overflow-y-scroll md:overflow-hidden snap-y snap-mandatory flex flex-col md:flex-row items-center md:justify-evenly md:h-[75vh] md:mt-[20vh]">
             {/* CODE EDITOR */}
-            <section className="md:mt-60 mb-60 flex flex-col md:flex-row items-center md:justify-evenly h-screen snap-start md:h-11/12 md:snap-none">
-                <div className="mt-30 md:mt-5 code-editor h-full w-90 md:w-[60vw] border-2 rounded-xl flex flex-col">
+            <section className="pt-30 md:pt-0 md:mt-60 mb-60 flex flex-col md:flex-row items-center md:justify-evenly h-screen snap-start md:h-11/12 md:snap-none">
+                <div className="md:mt-5 code-editor h-full w-90 md:w-[60vw] border-2 rounded-xl flex flex-col">
                     {/* Top Row */}
                     <div className="top w-full h-[14vh] flex justify-between px-5 items-center">
                         <div className="left w-1/2 h-2/3 md:h-full md:w-[20vw] flex md:justify-between md:items-center">
@@ -276,7 +276,7 @@ export default function RoomPage() {
                         
                         <div className="right w-1/2 h-2/3 md:w-[30vw] md:h-full flex flex-col md:flex-row justify-between items-end md:items-center">
                             <div className="dropdown-hover-leader-alert relative group h-10.25 w-3/4 md:w-[8vw] border-2 border-blue-500 rounded-md">
-                                { !isLeader && <p className="text-xs p-2 rounded-md bg-blue-500 text-white absolute w-[12vw] left-full -top-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">Only the Room Leader '👑'<br/>can change language</p> }
+                                { !isLeader && <p className="text-xs p-2 rounded-md bg-blue-500 text-white absolute w-44 h-12 md:w-[12vw] md:h-[6.5vh] bottom-full md:left-full md:-top-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">Only the Room Leader '👑'<br/>can change language</p> }
                                 
                                 <Select
                                     isDisabled={!isLeader}
@@ -345,17 +345,21 @@ export default function RoomPage() {
                         </div>
                     </div>
                 </div>
-                <h1 className="mt-5 font-bold block md:hidden text-xl underline underline-offset-5 decoration-red-500 decoration-4">Scroll Down for Room Chat</h1>
-                <FaAngleDoubleDown className="mt-5 block md:hidden animate-bounce" style={ { height: "8vh", width: "8vw" } } />
+                <div className="scroll-down-div mt-5 flex md:hidden justify-center gap-4 w-full">
+                    <h1 className="font-bold text-xl underline underline-offset-5 decoration-red-500 decoration-4">Scroll Down for Room Chat</h1>
+                    <FaAngleDoubleDown className="animate-bounce" style={ { height: "6vh", width: "6vw" } } />
+                </div>
             </section>
 
             { isCodeRunning && <Loader text="Running Code"/> }
             
             {/* ROOM CHATBOX */}
-            <section className="mb-40 md:mt-40 flex flex-col md:flex-row items-center md:justify-evenly h-screen snap-start md:h-11/12 md:snap-none">
-                <FaAngleDoubleUp className="mt-20 block md:hidden animate-bounce" style={ { height: "8vh", width: "8vw" } } />
-                <h1 className="font-bold block md:hidden text-xl underline underline-offset-5 decoration-blue-500 decoration-4">Scroll Up for Code Editor</h1>
-                <div className="mt-5 room-chat h-full w-90 md:w-[30vw] border-2 rounded-xl flex flex-col justify-evenly items-center">
+            <section className="relative bottom-20 md:pt-2.5 md:mt-40 flex flex-col md:flex-row items-center md:justify-evenly h-screen snap-start md:h-11/12 md:snap-none">
+                <div className="scroll-up-div flex md:hidden justify-center gap-4 w-full">
+                    <h1 className="font-bold text-xl underline underline-offset-5 decoration-blue-500 decoration-4">Scroll Up for Code Editor</h1>
+                    <FaAngleDoubleUp className="animate-bounce" style={ { height: "6vh", width: "6vw" } } />
+                </div>
+                <div className="room-chat h-full w-90 md:w-[30vw] border-2 rounded-xl flex flex-col justify-evenly items-center">
                     <div className="top-row h-[7.5vh] w-full px-3 flex justify-between items-center">
                         <h1 className="text-xl md:text-2xl h-5/6 w-1/4 md:pt-2 md:w-1/3 font-bold underline underline-offset-5 decoration-red-500 decoration-4">Room Chat</h1>
                         

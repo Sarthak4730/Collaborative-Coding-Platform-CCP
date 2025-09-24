@@ -122,7 +122,7 @@ export default function Landing() {
                     tiltMaxAngleX={15}
                     tiltMaxAngleY={15}
                     transitionSpeed={250}
-                    className="h-32 md:h-auto rounded-xl shadow-lg bg-white p-6 hover:shadow-2xl flex justify-between items-center border-2 border-red-500"
+                    className="hidden h-32 md:h-auto rounded-xl shadow-lg bg-white p-6 hover:shadow-2xl md:flex justify-between items-center border-2 border-red-500"
                 >
                     <div className="left w-2/3 md:w-auto">
                         <h4 className="font-bold text-lg md:text-2xl">Secure room access.</h4>
