@@ -262,7 +262,7 @@ export default function RoomPage() {
 
         <div className="h-screen overflow-y-scroll md:overflow-hidden snap-y snap-mandatory flex flex-col md:flex-row items-center md:justify-evenly md:h-[75vh] md:mt-[20vh]">
             {/* CODE EDITOR */}
-            <section className="pt-20 md:pt-0 md:mt-60 mb-60 flex flex-col md:flex-row items-center md:justify-evenly h-screen snap-start md:h-11/12 md:snap-none">
+            <section className="pt-20 md:pt-20 md:mt-60 mb-60 flex flex-col md:flex-row items-center md:justify-evenly h-screen snap-start md:h-11/12 md:snap-none">
                 <div className="md:mt-5 code-editor h-full w-90 md:w-[60vw] border-2 rounded-xl flex flex-col">
                     {/* Top Row */}
                     <div className="top w-full h-[14vh] flex justify-between px-5 items-center">
@@ -345,9 +345,9 @@ export default function RoomPage() {
                         </div>
                     </div>
                 </div>
-                <div className="scroll-down-div mt-5 flex md:hidden justify-center gap-4 w-full">
+                <div className="scroll-down-div flex md:hidden justify-center gap-4 w-full">
                     <h1 className="font-bold text-lg underline underline-offset-5 decoration-red-500 decoration-4">Scroll Down for Room Chat</h1>
-                    <FaAngleDoubleDown className="animate-bounce" style={ { height: "4vh", width: "4vw" } } />
+                    <FaAngleDoubleDown className="animate-bounce" style={ { height: "5vh", width: "5vw" } } />
                 </div>
             </section>
 
@@ -357,7 +357,7 @@ export default function RoomPage() {
             <section className="relative bottom-10 md:pt-2.5 md:mt-40 flex flex-col md:flex-row items-center md:justify-evenly h-screen snap-start md:h-11/12 md:snap-none">
                 <div className="scroll-up-div flex md:hidden justify-center gap-4 w-full">
                     <h1 className="font-bold text-lg underline underline-offset-5 decoration-blue-500 decoration-4">Scroll Up for Code Editor</h1>
-                    <FaAngleDoubleUp className="animate-bounce" style={ { height: "4vh", width: "4vw" } } />
+                    <FaAngleDoubleUp className="animate-bounce" style={ { height: "5vh", width: "5vw" } } />
                 </div>
                 <div className="room-chat h-full w-90 md:w-[30vw] border-2 rounded-xl flex flex-col justify-evenly items-center">
                     <div className="top-row h-[7.5vh] w-full px-3 flex justify-between items-center">
