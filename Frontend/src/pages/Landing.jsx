@@ -66,7 +66,7 @@ export default function Landing() {
                 </button>
             </div>
 
-            <div className="features flex flex-col md:h-[60vh] md:grid md:grid-cols-2 md:grid-rows-2 px-[3vw] md:pt-[2vw] gap-6 md:gap-[3vw]">
+            <div className="features flex flex-col md:h-[60vh] md:grid md:grid-cols-2 md:grid-rows-2 px-[3vw] md:pb-[2vw] gap-6 md:gap-[3vw]">
                 <Tilt
                     glareEnable={true}
                     glareMaxOpacity={0.2}
