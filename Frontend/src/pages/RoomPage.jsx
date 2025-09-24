@@ -262,8 +262,8 @@ export default function RoomPage() {
 
         <div className="w-screen h-screen overflow-y-scroll md:overflow-hidden snap-y snap-mandatory flex flex-col md:flex-row items-center md:justify-evenly md:h-[75vh] md:mt-[20vh]">
             {/* CODE EDITOR */}
-            <section className="pt-20 md:pt-0 md:mt-70 mb-60 flex flex-col md:flex-row items-center md:justify-evenly h-screen snap-start md:h-11/12 md:snap-none">
-                <div className="md:mt-5 code-editor h-full w-90 md:w-[60vw] border-2 rounded-xl flex flex-col">
+            <section className="pt-25 md:pt-0 md:mt-70 mb-60 flex flex-col md:flex-row items-center md:justify-evenly h-screen snap-start md:h-11/12 md:snap-none">
+                <div className="md:mt-10 code-editor h-full w-90 md:w-[60vw] border-2 rounded-xl flex flex-col">
                     {/* Top Row */}
                     <div className="top w-full h-[14vh] flex justify-between px-5 items-center">
                         <div className="left w-1/2 h-2/3 md:h-full md:w-[20vw] flex md:justify-between md:items-center">
